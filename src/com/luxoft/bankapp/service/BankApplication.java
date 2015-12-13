@@ -12,7 +12,6 @@ public class BankApplication {
         Bank bank1 = new Bank();
         initialize(bank1);
         bank1.printReport();
-        //ale jaja
         modifyBank(bank1);
         bank1.printReport();
     }

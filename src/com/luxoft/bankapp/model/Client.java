@@ -12,7 +12,7 @@ public class Client implements Report {
     private Gender gender;
     private List<Account> accounts;
     private Account activeAccount;
-    private float initialOverdrat;
+    private float initialOverdraft;
 
     //CONSTRUCTORS
     public Client(String name) {
@@ -27,8 +27,8 @@ public class Client implements Report {
         this.accounts = new ArrayList<>(2);
     }
 
-    public Client(float initialOverdrat) {
-        this.initialOverdrat = initialOverdrat;
+    public Client(float initialOverdraft) {
+        this.initialOverdraft = initialOverdraft;
     }
 
     //METHODS
