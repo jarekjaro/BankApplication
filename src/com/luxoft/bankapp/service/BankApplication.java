@@ -30,7 +30,11 @@ public class BankApplication {
         };
 
         for (Client aClientInit : clientInit) {
-            bs.addClient(bank1, aClientInit);
+            try {
+                bs.addClient(bank1, aClientInit);
+            } catch (ClientExistsException e) {
+                System.out.println(e.getMessage());
+            }
         }
 
         Random rand = new Random();
@@ -57,6 +61,15 @@ public class BankApplication {
 
         Random rand = new Random();
         listToModify.forEach(account -> account.deposit(rand.nextFloat() * 10000));
-        listToModify.forEach(account -> account.withdraw(rand.nextFloat() * 10000));
+        listToModify.forEach(account -> {
+            float withdrawAmount = rand.nextFloat() * 10000000;
+            try {
+                account.withdraw(withdrawAmount);
+            } catch (OverdraftLimitExceededException e) {
+                System.out.println(e.getMessage());
+            } catch (NotEnoughFundsException f) {
+                System.out.println(f.getMessage());
+            }
+        });
     }
 }

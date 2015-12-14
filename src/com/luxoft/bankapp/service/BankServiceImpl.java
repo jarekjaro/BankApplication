@@ -5,8 +5,16 @@ import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 
 public class BankServiceImpl implements BankService {
-    public void addClient(Bank bank, Client client) {
-        bank.getClients().add(client);
+    public void addClient(Bank bank, Client client) throws ClientExistsException {
+        try{
+            if(bank.getClients().indexOf(client)!=-1){
+                throw new ClientExistsException(client);
+            }else{
+                bank.getClients().add(client);
+            }
+        } catch (ClientExistsException e) {
+            e.getMessage();
+        }
     }
 
     public void removeClient(Bank bank, Client client) {

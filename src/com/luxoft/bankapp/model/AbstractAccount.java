@@ -1,5 +1,7 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.service.NotEnoughFundsException;
+
 abstract class AbstractAccount implements Account {
     //FIELDS
     float balance;
@@ -18,20 +20,12 @@ abstract class AbstractAccount implements Account {
         balance += x;
     }
 
-    public void withdraw(float x) {
+    public void withdraw(float x) throws NotEnoughFundsException{
         if (getBalance() >= x) {
             balance -= x;
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb
-                    .append("The balance is ")
-                    .append(getBalance())
-                    .append(" so no withdraw of ")
-                    .append(x)
-                    .append(" is available.");
-            System.out.println(sb);
+            throw new NotEnoughFundsException();
         }
-
     }
 
     public void printReport() {

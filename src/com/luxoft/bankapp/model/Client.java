@@ -47,4 +47,8 @@ public class Client implements Report {
         System.out.printf("%s%s\n", getClientSalutation(), name);
         accounts.forEach(account -> System.out.printf("%20s%6.2f\n", account, account.getBalance()));
     }
+
+    public String getName() {
+        return name;
+    }
 }

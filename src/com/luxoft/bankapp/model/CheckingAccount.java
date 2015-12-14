@@ -1,5 +1,8 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.service.NotEnoughFundsException;
+import com.luxoft.bankapp.service.OverdraftLimitExceededException;
+
 public class CheckingAccount extends AbstractAccount {
     //FIELDS
     private float overdraft;
@@ -14,22 +17,19 @@ public class CheckingAccount extends AbstractAccount {
         this.overdraft = newOverdraft;
     }
 
+    public float getOverdraft() {
+        return overdraft;
+    }
+
     @Override
-    public void withdraw(float x) {
-        if (getBalance() >= x-overdraft) {
+    public void withdraw(float x) throws OverdraftLimitExceededException {
+        if (getBalance() >= x - overdraft) {
             balance -= x;
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb
-                    .append("The balance is ")
-                    .append(getBalance())
-                    .append(" so no withdraw of ")
-                    .append(x)
-                    .append(" is available.");
-            System.out.println(sb);
+            throw new OverdraftLimitExceededException(this, x);
         }
-
     }
+
     @Override
     public String toString() {
         return "Checking Account: ";
