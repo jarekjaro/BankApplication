@@ -48,4 +48,9 @@ public class Client implements Report {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return getClientSalutation()+name;
+    }
 }
