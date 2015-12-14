@@ -14,6 +14,8 @@ public class BankServiceImpl implements BankService {
             }
         } catch (ClientExistsException e) {
             e.getMessage();
+        } finally{
+            bank.getListeners().forEach(eventNotificationListener -> eventNotificationListener.onClientAdded(client));
         }
     }
 
@@ -27,5 +29,9 @@ public class BankServiceImpl implements BankService {
 
     public void setActiveAccount(Client client, Account account) {
         client.setActiveAccount(account);
+    }
+
+    public void registerEvent(EventNotificationListener eventNotificationListener) {
+
     }
 }

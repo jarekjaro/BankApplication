@@ -18,6 +18,8 @@ public class BankApplication {
 
     public static void initialize(Bank bank1) {
         BankServiceImpl bs = new BankServiceImpl();
+        bank1.getListeners().add(new PrintClientListener());
+        bank1.getListeners().add(new EmailNotificationListener());
 
         Client[] clientInit = new Client[]{
                 new Client("Janusz", Gender.MALE),
