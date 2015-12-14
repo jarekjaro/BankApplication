@@ -17,7 +17,6 @@ public class BankApplication {
     }
 
     public static void initialize(Bank bank1) {
-        BankServiceImpl bs = new BankServiceImpl();
 
         Client[] clientInit = new Client[]{
                 new Client("Janusz", Gender.MALE),
@@ -30,7 +29,7 @@ public class BankApplication {
 
         for (Client aClientInit : clientInit) {
             try {
-                bs.addClient(bank1, aClientInit);
+                bank1.addClient(bank1, aClientInit);
             } catch (ClientExistsException e) {
                 System.out.println(e.getMessage());
             }
@@ -42,9 +41,9 @@ public class BankApplication {
         for (Client aClientInit : clientInit) {
             for (int g = 0; g < fix; g++) {
                 if (rand.nextFloat() > 0.5) {
-                    bs.addAccount(aClientInit, new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000));
+                    bank1.addAccount(aClientInit, new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000));
                 } else {
-                    bs.addAccount(aClientInit, new SavingAccount(rand.nextFloat() * 100000));
+                    bank1.addAccount(aClientInit, new SavingAccount(rand.nextFloat() * 100000));
                 }
             }
         }
