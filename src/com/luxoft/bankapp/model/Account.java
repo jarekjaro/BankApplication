@@ -6,8 +6,8 @@ import com.luxoft.bankapp.service.Report;
 public interface Account extends Report {
     float getBalance();
 
-    void deposit(float x);
+    void deposit(float amount);
 
-    void withdraw(float x) throws NotEnoughFundsException;
+    void withdraw(float amount) throws NotEnoughFundsException;
 
 }

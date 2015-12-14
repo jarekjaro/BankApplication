@@ -3,20 +3,18 @@ package com.luxoft.bankapp.model;
 import com.luxoft.bankapp.service.Report;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Bank implements Report {
-    //FIELDS
     private List<Client> clients;
 
-    //CONSTRUCTORS
     public Bank() {
         clients = new ArrayList<>();
     }
 
-    //METHODS
-    public List<Client> getClients(){
-        return clients;
+    public List<Client> getClients() {
+        return (clients); //Collections.unmodifiableList ??
     }
 
     @Override

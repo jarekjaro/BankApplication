@@ -3,15 +3,12 @@ package com.luxoft.bankapp.model;
 import com.luxoft.bankapp.service.NotEnoughFundsException;
 
 abstract class AbstractAccount implements Account {
-    //FIELDS
     float balance;
 
-    //CONSTRUCTORS
     AbstractAccount(float balance) {
         this.balance = balance;
     }
 
-    //METHODS
     public float getBalance() {
         return balance;
     }
@@ -20,7 +17,7 @@ abstract class AbstractAccount implements Account {
         balance += x;
     }
 
-    public void withdraw(float x) throws NotEnoughFundsException{
+    public void withdraw(float x) throws NotEnoughFundsException {
         if (getBalance() >= x) {
             balance -= x;
         } else {

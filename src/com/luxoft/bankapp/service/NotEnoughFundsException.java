@@ -14,9 +14,8 @@ public class NotEnoughFundsException extends BankException {
         return message;
     }
 
-    public NotEnoughFundsException(SavingAccount accountToThrow, float toWithdraw) {
-        message = "For account "+ accountToThrow + "there is: "
-                + accountToThrow.getBalance() + " funds"
-                +" so cannot withdraw " +toWithdraw+" !";
+    public NotEnoughFundsException(SavingAccount accountToThrow, float amountToWithdraw) {
+        message = String.format("For account %-17s balance is: %,10.2f so cannot withdraw %,10.2f.",
+                accountToThrow, accountToThrow.getBalance(), amountToWithdraw);
     }
 }

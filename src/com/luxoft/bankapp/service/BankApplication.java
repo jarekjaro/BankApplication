@@ -16,7 +16,6 @@ public class BankApplication {
         bank1.printReport();
     }
 
-    //METHODS
     public static void initialize(Bank bank1) {
         BankServiceImpl bs = new BankServiceImpl();
 
@@ -38,12 +37,12 @@ public class BankApplication {
         }
 
         Random rand = new Random();
-        //for each client add a fixed number of accounts with random starting balance
+        //for each client add a fixed number of accounts with random starting balance and overdraft
         int fix = 2;
         for (Client aClientInit : clientInit) {
             for (int g = 0; g < fix; g++) {
                 if (rand.nextFloat() > 0.5) {
-                    bs.addAccount(aClientInit, new CheckingAccount(rand.nextFloat() * 100000));
+                    bs.addAccount(aClientInit, new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000));
                 } else {
                     bs.addAccount(aClientInit, new SavingAccount(rand.nextFloat() * 100000));
                 }
@@ -62,7 +61,7 @@ public class BankApplication {
         Random rand = new Random();
         listToModify.forEach(account -> account.deposit(rand.nextFloat() * 10000));
         listToModify.forEach(account -> {
-            float withdrawAmount = rand.nextFloat() * 10000000;
+            float withdrawAmount = rand.nextFloat() * 100000;
             try {
                 account.withdraw(withdrawAmount);
             } catch (NotEnoughFundsException f) {

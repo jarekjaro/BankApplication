@@ -14,8 +14,9 @@ public class OverdraftLimitExceededException extends NotEnoughFundsException {
         return message;
     }
 
-    public OverdraftLimitExceededException(CheckingAccount checkingAccount, float toWithdraw) {
-        message = "For account "+ checkingAccount + " overdraft limit is: "
-        + checkingAccount.getOverdraft() + " so cannot withdraw " +toWithdraw+" !";
+    public OverdraftLimitExceededException(CheckingAccount checkingAccount, float amountToWithdraw) {
+        message = String.format("For account %-17s balance is: %,10.2f and overdraft limit is: %8.2f so cannot withdraw %,10.2f.",
+                checkingAccount, checkingAccount.getBalance(),
+                checkingAccount.getOverdraft(), amountToWithdraw);
     }
 }

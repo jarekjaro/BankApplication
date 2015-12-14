@@ -7,14 +7,12 @@ import java.util.List;
 
 public class Client implements Report {
 
-    //FIELDS
     private String name;
     private Gender gender;
     private List<Account> accounts;
     private Account activeAccount;
     private float initialOverdraft;
 
-    //CONSTRUCTORS
     public Client(String name) {
         this.name = name;
         this.accounts = new ArrayList<>(2);
@@ -31,9 +29,8 @@ public class Client implements Report {
         this.initialOverdraft = initialOverdraft;
     }
 
-    //METHODS
-    public void setActiveAccount(Account a) {
-        activeAccount=a;
+    public void setActiveAccount(Account activeAccount) {
+        this.activeAccount=activeAccount;
     }
 
     public List<Account> getAccounts() {
@@ -41,11 +38,11 @@ public class Client implements Report {
     }
 
     public String getClientSalutation() {
-        return gender.getPrefix()+" ";
+        return gender.getSalutation()+" ";
     }
     public void printReport() {
         System.out.printf("%s%s\n", getClientSalutation(), name);
-        accounts.forEach(account -> System.out.printf("%20s%6.2f\n", account, account.getBalance()));
+        accounts.forEach(account -> System.out.printf("%20s%,10.2f\n", account, account.getBalance()));
     }
 
     public String getName() {

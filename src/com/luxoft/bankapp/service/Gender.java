@@ -3,13 +3,13 @@ package com.luxoft.bankapp.service;
 public enum Gender {
     MALE("Mr."), FEMALE("Ms.");
 
-    private String prefix;
+    private String salutation;
 
-    Gender(String prefix) {
-        this.prefix = prefix;
+    Gender(String salutation) {
+        this.salutation = salutation;
     }
 
-    public String getPrefix() {
-        return prefix;
+    public String getSalutation() {
+        return salutation;
     }
 }
