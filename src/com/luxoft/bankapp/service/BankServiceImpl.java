@@ -31,7 +31,4 @@ public class BankServiceImpl implements BankService {
         client.setActiveAccount(account);
     }
 
-    public void registerEvent(EventNotificationListener eventNotificationListener) {
-
-    }
 }
