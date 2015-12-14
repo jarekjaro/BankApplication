@@ -65,8 +65,6 @@ public class BankApplication {
             float withdrawAmount = rand.nextFloat() * 10000000;
             try {
                 account.withdraw(withdrawAmount);
-            } catch (OverdraftLimitExceededException e) {
-                System.out.println(e.getMessage());
             } catch (NotEnoughFundsException f) {
                 System.out.println(f.getMessage());
             }
