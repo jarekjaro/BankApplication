@@ -3,7 +3,8 @@ package com.luxoft.bankapp.service;
 import com.luxoft.bankapp.model.CheckingAccount;
 
 public class OverdraftLimitExceededException extends NotEnoughFundsException {
-    private String message;
+    private static final long serialVersionUID = 8461325912285706860L;
+    private final String message;
 
     public OverdraftLimitExceededException() {
         message = "Overdraft limit exceeded!";
@@ -15,8 +16,7 @@ public class OverdraftLimitExceededException extends NotEnoughFundsException {
     }
 
     public OverdraftLimitExceededException(CheckingAccount checkingAccount, float amountToWithdraw) {
-        message = String.format("For account %-17s balance is: %,10.2f and overdraft limit is: %8.2f so cannot withdraw %,10.2f.",
-                checkingAccount, checkingAccount.getBalance(),
-                checkingAccount.getOverdraft(), amountToWithdraw);
+        message = String.format("For account %-17s cannot withdraw %,10.2f.",
+                                checkingAccount, amountToWithdraw);
     }
 }

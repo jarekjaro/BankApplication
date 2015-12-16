@@ -34,6 +34,11 @@ public class CheckingAccount extends AbstractAccount {
 
     @Override
     public String toString() {
-        return "Checking Account ";
+        return String.format("Checking account %,10.2f with overdraft %,10.2f", this.getBalance(), this.getOverdraft());
+    }
+
+    @Override
+    public void printReport() {
+        this.toString();
     }
 }

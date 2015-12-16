@@ -24,14 +24,4 @@ abstract class AbstractAccount implements Account {
             throw new NotEnoughFundsException();
         }
     }
-
-    public void printReport() {
-        StringBuilder sb = new StringBuilder();
-        sb
-                .append("This ")
-                .append(this.getClass().toString())
-                .append(" balance is ")
-                .append(getBalance());
-        System.out.println(sb);
-    }
 }

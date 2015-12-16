@@ -18,7 +18,6 @@ public class Client implements Report {
         this.accounts = new ArrayList<>(2);
     }
 
-
     public Client(String name, Gender gender) {
         this.name = name;
         this.gender = gender;
@@ -42,7 +41,7 @@ public class Client implements Report {
     }
     public void printReport() {
         System.out.printf("%s%s\n", getClientSalutation(), name);
-        accounts.forEach(account -> System.out.printf("%20s%,10.2f\n", account, account.getBalance()));
+        accounts.forEach(System.out::println);
     }
 
     public String getName() {

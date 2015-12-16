@@ -5,11 +5,12 @@ import com.luxoft.bankapp.service.ClientExistsException;
 import com.luxoft.bankapp.service.Report;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Bank implements Report, BankService {
-    private List<Client> clients;
-    private List<ClientRegistrationListener> listeners;
+    private final List<Client> clients;
+    private final List<ClientRegistrationListener> listeners;
 
     public Bank() {
         clients = new ArrayList<>();
@@ -37,12 +38,12 @@ public class Bank implements Report, BankService {
         }
     }
 
-    void registerEvent(ClientRegistrationListener actionListener) {
+    private void registerEvent(ClientRegistrationListener actionListener) {
         listeners.add(actionListener);
     }
 
     public List<Client> getClients() {
-        return (clients); //Collections.unmodifiableList ??
+        return Collections.unmodifiableList(clients); //Collections.unmodifiableList ??
     }
 
     @Override
@@ -51,16 +52,16 @@ public class Bank implements Report, BankService {
         System.out.println("----------------------------------------");
     }
 
-    public List<ClientRegistrationListener> getListeners() {
+    private List<ClientRegistrationListener> getListeners() {
         return listeners;
     }
 
-    public void addClient(Bank bank, Client client) throws ClientExistsException {
+    public void addClient(Bank bank, Client client) {
         try {
             if (bank.getClients().indexOf(client) != -1) {
                 throw new ClientExistsException(client);
             } else {
-                bank.getClients().add(client);
+                clients.add(client);
             }
         } catch (ClientExistsException e) {
             e.getMessage();

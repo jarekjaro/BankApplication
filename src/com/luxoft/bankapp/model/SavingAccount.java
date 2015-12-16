@@ -9,7 +9,7 @@ public class SavingAccount extends AbstractAccount {
 
     @Override
     public String toString() {
-        return "Saving Account ";
+        return String.format("Saving account   %,10.2f", this.getBalance());
     }
 
     public void withdraw(float amount) throws NotEnoughFundsException {
@@ -18,5 +18,10 @@ public class SavingAccount extends AbstractAccount {
         } else {
             throw new NotEnoughFundsException(this,amount);
         }
+    }
+
+    @Override
+    public void printReport() {
+        this.toString();
     }
 }

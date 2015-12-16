@@ -16,7 +16,7 @@ public class BankApplication {
         bank1.printReport();
     }
 
-    public static void initialize(Bank bank1) {
+    private static void initialize(Bank bank1) {
 
         Client[] clientInit = new Client[]{
                 new Client("Janusz", Gender.MALE),
@@ -28,11 +28,7 @@ public class BankApplication {
         };
 
         for (Client aClientInit : clientInit) {
-            try {
                 bank1.addClient(bank1, aClientInit);
-            } catch (ClientExistsException e) {
-                System.out.println(e.getMessage());
-            }
         }
 
         Random rand = new Random();
@@ -49,7 +45,7 @@ public class BankApplication {
         }
     }
 
-    public static void modifyBank(Bank bankToModify) {
+    private static void modifyBank(Bank bankToModify) {
         List<Client> listOfClients = bankToModify.getClients();
         List<Account> listToModify = new ArrayList<>();
         listOfClients.forEach(client -> {
