@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.model;
 
-import com.luxoft.bankapp.service.NotEnoughFundsException;
+import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 
 public class SavingAccount extends AbstractAccount {
     public SavingAccount(float balance) {

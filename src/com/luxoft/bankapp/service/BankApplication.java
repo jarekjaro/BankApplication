@@ -1,5 +1,6 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 
 import java.util.ArrayList;
@@ -14,6 +15,10 @@ public class BankApplication {
         bank1.printReport();
         modifyBank(bank1);
         bank1.printReport();
+        bank1.getClients().forEach(System.out::println);
+        bank1.getClients().forEach(client ->{
+            client.getAccounts().forEach(account -> account.decimalValue());
+        });
     }
 
     private static void initialize(Bank bank1) {

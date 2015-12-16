@@ -1,6 +1,6 @@
 package com.luxoft.bankapp.model;
 
-import com.luxoft.bankapp.service.NotEnoughFundsException;
+import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 
 abstract class AbstractAccount implements Account {
     float balance;

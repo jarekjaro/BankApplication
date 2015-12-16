@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.service;
+package com.luxoft.bankapp.exceptions;
 
 class BankException extends Exception {
     private static final long serialVersionUID = 6414969375178932557L;

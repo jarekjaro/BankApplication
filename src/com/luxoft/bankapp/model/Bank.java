@@ -1,8 +1,7 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.service.BankService;
-import com.luxoft.bankapp.service.ClientExistsException;
-import com.luxoft.bankapp.service.Report;
+import com.luxoft.bankapp.exceptions.ClientExistsException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,5 +79,10 @@ public class Bank implements Report, BankService {
 
     public void setActiveAccount(Client client, Account account) {
         client.setActiveAccount(account);
+    }
+
+    @Override
+    public Client getClient(Bank bank, String clientName) {
+        return null;
     }
 }

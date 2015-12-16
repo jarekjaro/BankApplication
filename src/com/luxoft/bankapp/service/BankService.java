@@ -9,4 +9,5 @@ public interface BankService {
     void removeClient(Bank bank,Client client);
     void addAccount(Client client, Account account);
     void setActiveAccount(Client client, Account account);
+    public Client getClient(Bank bank, String clientName);
 }

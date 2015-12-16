@@ -1,6 +1,4 @@
 package com.luxoft.bankapp.model;
-import com.luxoft.bankapp.service.Gender;
-import com.luxoft.bankapp.service.Report;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +27,7 @@ public class Client implements Report {
     }
 
     public void setActiveAccount(Account activeAccount) {
-        this.activeAccount=activeAccount;
+        this.activeAccount = activeAccount;
     }
 
     public List<Account> getAccounts() {
@@ -37,8 +35,9 @@ public class Client implements Report {
     }
 
     public String getClientSalutation() {
-        return gender.getSalutation()+" ";
+        return gender.getSalutation() + " ";
     }
+
     public void printReport() {
         System.out.printf("%s%s\n", getClientSalutation(), name);
         accounts.forEach(System.out::println);
@@ -50,6 +49,40 @@ public class Client implements Report {
 
     @Override
     public String toString() {
-        return getClientSalutation()+name;
+        StringBuilder sb = new StringBuilder();
+        sb
+                .append(getClientSalutation())
+                .append(name)
+                .append(" (")
+                .append(gender.name())
+                .append(")")
+                .append(" has ");
+        for (int i = 0; i < accounts.size(); i++) {
+            sb
+                    .append(accounts.get(1))
+                    .append("; ");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (!name.equals(client.name)) return false;
+        if (gender != client.gender) return false;
+        return accounts.equals(client.accounts);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + gender.hashCode();
+        result = 31 * result + accounts.hashCode();
+        return result;
     }
 }
