@@ -1,8 +1,12 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
+
+import java.util.Iterator;
+import java.util.List;
 
 public class BankServiceImpl implements BankService {
     public void addClient(Bank bank, Client client) {
@@ -27,4 +31,15 @@ public class BankServiceImpl implements BankService {
 
     }
 
+    public Client findClient(Bank bank, String clientName) throws ClientDoesNotExistException {
+        List<Client> clientsList = bank.getClients();
+        Iterator it = clientsList.iterator();
+        while (it.hasNext()) {
+            Client client = (Client) it.next();
+            if (client.getName().equals(clientName)) {
+                return client;
+            } else throw new ClientDoesNotExistException();
+        }
+        return null;
+    }
 }

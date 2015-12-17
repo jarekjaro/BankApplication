@@ -11,6 +11,6 @@ public class DepositCommand implements Command {
 
     @Override
     public void printCommandInfo() {
-
+        System.out.println("Deposit Command");
     }
 }

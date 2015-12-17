@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Bank implements Report, BankService {
+public class Bank implements Report {
     private final List<Client> clients;
     private final List<ClientRegistrationListener> listeners;
 
@@ -79,7 +79,6 @@ public class Bank implements Report, BankService {
         client.setActiveAccount(account);
     }
 
-    @Override
     public Client getClient(Bank bank, String clientName) {
         return null;
     }

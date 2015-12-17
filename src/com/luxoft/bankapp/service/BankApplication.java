@@ -16,12 +16,17 @@ public class BankApplication {
         modifyBank(bank1);
         bank1.printReport();
         bank1.getClients().forEach(System.out::println);
+//
+//        List<Client> clients = bank1.getClients();
+//        for (int i = 0;i<bank1.getClients().size();i++) {
+//            System.out.println(clients.get(i));
+//        }
         bank1.getClients().forEach(client ->{
             client.getAccounts().forEach(account -> account.decimalValue());
         });
     }
 
-    private static void initialize(Bank bank1) {
+    public static void initialize(Bank bank1) {
 
         Client[] clientInit = new Client[]{
                 new Client("Janusz", Gender.MALE),

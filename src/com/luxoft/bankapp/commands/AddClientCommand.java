@@ -11,6 +11,6 @@ public class AddClientCommand implements Command {
 
     @Override
     public void printCommandInfo() {
-
+        System.out.println("Add Client Command");
     }
 }
