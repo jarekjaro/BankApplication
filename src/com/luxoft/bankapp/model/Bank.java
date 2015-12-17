@@ -18,9 +18,7 @@ public class Bank implements Report, BankService {
         registerEvent(new EmailNotificationListener());
     }
 
-    public interface ClientRegistrationListener {
-        void onClientAdded(Client client);
-    }
+
 
     class EmailNotificationListener implements ClientRegistrationListener {
 
@@ -86,3 +84,4 @@ public class Bank implements Report, BankService {
         return null;
     }
 }
+

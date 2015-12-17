@@ -39,6 +39,6 @@ public class CheckingAccount extends AbstractAccount {
 
     @Override
     public void printReport() {
-        this.toString();
+        System.out.println(this.toString());
     }
 }

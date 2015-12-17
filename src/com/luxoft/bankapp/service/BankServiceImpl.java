@@ -22,7 +22,9 @@ public class BankServiceImpl implements BankService {
     }
 
     public Client getClient(Bank bank, String clientName) {
-       // return bank.getClient(clientName);
+//        return bank.getClient(clientName);
         return new Client(clientName);//just for suppressing warnings
+
     }
+
 }
