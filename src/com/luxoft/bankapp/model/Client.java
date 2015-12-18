@@ -1,13 +1,14 @@
 package com.luxoft.bankapp.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Client implements Report {
 
     private String name;
     private Gender gender;
-    private List<Account> accounts;
+    List<Account> accounts;
     private Account activeAccount;
     private float initialOverdraft;
 
@@ -31,7 +32,7 @@ public class Client implements Report {
     }
 
     public List<Account> getAccounts() {
-        return accounts;
+        return Collections.unmodifiableList(accounts);
     }
 
     public String getClientSalutation() {
@@ -59,7 +60,7 @@ public class Client implements Report {
                 .append(" has ");
         for (int i = 0; i < accounts.size(); i++) {
             sb
-                    .append(accounts.get(1))
+                    .append(accounts.get(i))
                     .append("; ");
         }
         return sb.toString();

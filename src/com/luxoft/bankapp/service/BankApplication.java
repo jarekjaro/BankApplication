@@ -36,22 +36,15 @@ public class BankApplication {
                 new Client("Stefan", Gender.MALE),
                 new Client("Filip", Gender.MALE)
         };
-
-        for (Client aClientInit : clientInit) {
-                bank1.addClient(bank1, aClientInit);
-        }
-
         Random rand = new Random();
         //for each client add a fixed number of accounts with random starting balance and overdraft
-        int fix = 2;
-        for (Client aClientInit : clientInit) {
-            for (int g = 0; g < fix; g++) {
-                if (rand.nextFloat() > 0.5) {
-                    bank1.addAccount(aClientInit, new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000));
-                } else {
-                    bank1.addAccount(aClientInit, new SavingAccount(rand.nextFloat() * 100000));
-                }
-            }
+        for (Client client : clientInit) {
+            bank1.addAccount(client, new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000));
+            bank1.addAccount(client, new SavingAccount(rand.nextFloat() * 100000));
+        }
+
+        for (Client client : clientInit) {
+                bank1.addClient(bank1, client);
         }
     }
 

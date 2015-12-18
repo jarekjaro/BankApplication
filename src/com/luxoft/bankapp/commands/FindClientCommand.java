@@ -14,8 +14,10 @@ public class FindClientCommand implements Command {
     public void execute() {
         System.out.println("");
         System.out.println("Insert Clients Name:");
-        System.out.printf("%s", findClient(scanner.nextLine()));
+        Client foundClient = findClient(scanner.nextLine());
+        System.out.printf("%s", foundClient);
         scanner.nextLine();
+        BankCommander.currentClient = foundClient;
     }
 
     public Client findClient(String clientName) {

@@ -83,8 +83,12 @@ public class Bank implements Report {
         return null;
     }
 
-    public void addAccount(Client client, Account account) {
-        client.getAccounts().add(account);
+    public boolean addAccount(Client client, Account account) {
+        if(client.accounts.add(account)){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public void setActiveAccount(Client client, Account account) {
