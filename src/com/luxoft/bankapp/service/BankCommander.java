@@ -9,7 +9,6 @@ public class BankCommander {
     public static Bank currentBank = new Bank();
     public static Client currentClient;
     public static BankServiceImpl bs = new BankServiceImpl();
-
     static Command[] commands = {
             new FindClientCommand(),
             new AddClientCommand(),
@@ -20,7 +19,6 @@ public class BankCommander {
                 public void execute() {
                     System.exit(0);
                 }
-
                 public void printCommandInfo() {
                     System.out.println("Exit");
                 }
@@ -37,7 +35,7 @@ public class BankCommander {
                 System.out.print(i + ") ");
                 commands[i].printCommandInfo();
             }
-
+            System.out.println();
             int commandNumber = sc.nextInt(); // initialize command with commandString
             commands[commandNumber].execute();
         }
