@@ -1,5 +1,6 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.exceptions.ClientExistsException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
@@ -21,5 +22,4 @@ public class BankServiceImpl implements BankService {
     public void setActiveAccount(Client client, Account account) {
         //client.setActiveAccount(account);
     }
-
 }

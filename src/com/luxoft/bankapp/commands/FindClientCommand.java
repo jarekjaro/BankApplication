@@ -8,22 +8,29 @@ import java.util.Scanner;
 
 public class FindClientCommand implements Command {
     Scanner scanner = new Scanner(System.in);
+
     @Override
     public void execute() {
-        System.out.println("Insert Clients Name:");
-        Client foundClient = findClient(scanner.nextLine());
-        System.out.printf("%s", foundClient);
+        Client foundClient = null;
+        boolean clientNameFlag = true;
+        do {
+            System.out.println("Insert Client Name:");
+            try {
+                foundClient = findClient(scanner.nextLine());
+                clientNameFlag = false;
+            } catch (ClientDoesNotExistException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (clientNameFlag);
+        System.out.println(foundClient);
         scanner.nextLine();
         BankCommander.currentClient = foundClient;
     }
-    public Client findClient(String clientName) {
-        try {
-            return BankCommander.currentBank.getClientByName(clientName);
-        } catch (ClientDoesNotExistException e) {
-            System.out.println("CLIENT NOT IN DATABASE!!");
-        }
-        return null;
+
+    public Client findClient(String clientName) throws ClientDoesNotExistException {
+        return BankCommander.currentBank.getClientByName(clientName);
     }
+
     @Override
     public void printCommandInfo() {
         System.out.println("Find Client Command");

@@ -1,7 +1,6 @@
 package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
-import com.luxoft.bankapp.service.BankService;
 import com.luxoft.bankapp.exceptions.ClientExistsException;
 
 import java.util.ArrayList;
@@ -20,10 +19,7 @@ public class Bank implements Report {
         registerEvent(new EmailNotificationListener());
     }
 
-
-
     class EmailNotificationListener implements ClientRegistrationListener {
-
         @Override
         public void onClientAdded(Client client) {
             System.out.printf("Notification email for a client %11s to be sent.\n", client);
@@ -55,9 +51,9 @@ public class Bank implements Report {
         return listeners;
     }
 
-    public void addClient(Bank bank, Client client) {
+    public void addClient(Client client) {
         try {
-            if (bank.getClients().indexOf(client) != -1) {
+            if (this.getClients().indexOf(client) != -1) {
                 throw new ClientExistsException(client);
             } else {
                 clients.add(client);
@@ -65,8 +61,13 @@ public class Bank implements Report {
         } catch (ClientExistsException e) {
             e.getMessage();
         } finally {
-            bank.getListeners().forEach(eventNotificationListener -> eventNotificationListener.onClientAdded(client));
+            this.getListeners().forEach(eventNotificationListener -> eventNotificationListener.onClientAdded(client));
         }
+    }
+
+    public void addNewClient(String name, String surname, String phone, String email, float initialOverdraft) {
+        Client clientToAdd = new Client(name, surname, phone, email, initialOverdraft);
+        addClient(clientToAdd);
     }
 
     public boolean removeClient(Client client) {
@@ -74,24 +75,24 @@ public class Bank implements Report {
     }
 
     public Client getClientByName(String name) throws ClientDoesNotExistException {
-        boolean clientFoundFlag=false;
+        boolean clientFoundFlag = false;
         for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
             Client client = iterator.next();
-            if(client.getName().equals(name)) {
-                clientFoundFlag=true;
+            if (client.getName().equals(name)) {
+                clientFoundFlag = true;
                 return client;
             }
         }
-        if(!clientFoundFlag) {
+        if (!clientFoundFlag) {
             throw new ClientDoesNotExistException();
         }
         return null;
     }
 
     public boolean addAccount(Client client, Account account) {
-        if(client.accounts.add(account)){
+        if (client.accounts.add(account)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -104,4 +105,3 @@ public class Bank implements Report {
         return null;
     }
 }
-

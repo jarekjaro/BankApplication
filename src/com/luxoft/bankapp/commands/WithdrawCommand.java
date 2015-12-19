@@ -27,15 +27,14 @@ public class WithdrawCommand implements Command {
             if (toWithdraw >= 0) {
                 try {
                     BankCommander.currentClient.getActiveAccount().withdraw(toWithdraw);
+                    amountToWithdraw = false;
                 } catch (NotEnoughFundsException e) {
                     System.out.println(e.getMessage());
                 }
-                amountToWithdraw = false;
             } else {
                 System.out.println("Please provide a positive number or 0 to exit.\n");
             }
         } while (amountToWithdraw);
-
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class BankCommander {
     public static Bank currentBank = new Bank();
     public static Client currentClient;
+    public static Client currentReceivingClient;
     public static BankServiceImpl bs = new BankServiceImpl();
     static Command[] commands = {
             new FindClientCommand(),
