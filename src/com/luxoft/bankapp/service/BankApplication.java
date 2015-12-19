@@ -44,7 +44,7 @@ public class BankApplication {
         }
 
         for (Client client : clientInit) {
-                bank1.addClient(bank1, client);
+                bank1.addClient(client);
         }
     }
 
