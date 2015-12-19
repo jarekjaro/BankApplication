@@ -9,6 +9,11 @@ public class Client implements Report {
     private String name;
     private Gender gender;
     List<Account> accounts;
+
+    public Account getActiveAccount() {
+        return activeAccount;
+    }
+
     private Account activeAccount;
     private float initialOverdraft;
 

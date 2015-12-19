@@ -14,11 +14,13 @@ public class BankCommander {
             new AddClientCommand(),
             new GetAccountsCommand(),
             new DepositCommand(),
+            new WithdrawCommand(),
             new TransferCommand(),
             new Command() {
                 public void execute() {
                     System.exit(0);
                 }
+
                 public void printCommandInfo() {
                     System.out.println("Exit");
                 }
@@ -29,15 +31,32 @@ public class BankCommander {
         BankApplication.initialize(currentBank);
 
         Scanner sc = new Scanner(System.in);
-        boolean flag =true;
-        while (flag) {
+        boolean flagOfClient = false;
+        while (true) {
+            if (flagOfClient) System.out.println(currentClient.getClientSalutation() + currentClient.getName());
             for (int i = 0; i < commands.length; i++) { // show menu
                 System.out.print(i + ") ");
                 commands[i].printCommandInfo();
             }
             System.out.println();
-            int commandNumber = sc.nextInt(); // initialize command with commandString
-            commands[commandNumber].execute();
+            int commandNumber;
+            boolean commandFlag = true;
+            do {
+                String commandNumberStr = sc.nextLine(); // initialize command with commandString
+                try {
+                    commandNumber = Integer.parseInt(commandNumberStr);
+                    if ((commandNumber >= 0) && commandNumber <= (commands.length - 1)) {
+                        commandFlag = false;
+                        if (commandNumber == 0) flagOfClient = true;
+                        commands[commandNumber].printCommandInfo();
+                        commands[commandNumber].execute();
+                    } else{
+                        System.out.println("Please provide a positive integer value between (0-" + (commands.length - 1) + ")");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please provide a positive integer value between (0-" + (commands.length - 1) + ")");
+                }
+            } while (commandFlag);
         }
     }
 }

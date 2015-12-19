@@ -74,11 +74,16 @@ public class Bank implements Report {
     }
 
     public Client getClientByName(String name) throws ClientDoesNotExistException {
-        List<Client> tempList = this.getClients();
-        for (Iterator<Client> iterator = tempList.iterator(); iterator.hasNext(); ) {
+        boolean clientFoundFlag=false;
+        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
             Client client = iterator.next();
-            if(client.getName().equals(name)) return client;
-            else throw new ClientDoesNotExistException();
+            if(client.getName().equals(name)) {
+                clientFoundFlag=true;
+                return client;
+            }
+        }
+        if(!clientFoundFlag) {
+            throw new ClientDoesNotExistException();
         }
         return null;
     }
