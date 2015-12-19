@@ -36,7 +36,6 @@ public class Client implements Report {
 
     public Client(float initialOverdraft) {
         this.initialOverdraft = initialOverdraft;
-        //TODO
     }
 
     public void setActiveAccount(Account activeAccount) {
