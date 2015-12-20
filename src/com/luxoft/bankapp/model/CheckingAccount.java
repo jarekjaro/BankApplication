@@ -41,4 +41,23 @@ public class CheckingAccount extends AbstractAccount {
     public void printReport() {
         System.out.println(this.toString());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        CheckingAccount that = (CheckingAccount) o;
+
+        return Float.compare(that.overdraft, overdraft) == 0;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (overdraft != +0.0f ? Float.floatToIntBits(overdraft) : 0);
+        return result;
+    }
 }

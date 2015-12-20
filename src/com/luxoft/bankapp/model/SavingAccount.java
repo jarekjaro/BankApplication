@@ -24,4 +24,5 @@ public class SavingAccount extends AbstractAccount {
     public void printReport() {
         System.out.println(this.toString());
     }
+
 }

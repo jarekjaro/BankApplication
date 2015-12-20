@@ -3,20 +3,23 @@ package com.luxoft.bankapp.model;
 import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.exceptions.ClientExistsException;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Bank implements Report {
-    private final List<Client> clients;
-    private final List<ClientRegistrationListener> listeners;
+    private final Set<Client> clients;
+    private final Set<ClientRegistrationListener> listeners;
 
     public Bank() {
-        clients = new ArrayList<>();
-        listeners = new ArrayList<>();
+        clients = new HashSet<>();
+        listeners = new HashSet<>();
         registerEvent(new PrintClientListener());
         registerEvent(new EmailNotificationListener());
+    }
+
+    @Override
+    public void printReport() {
+        clients.forEach(Client::printReport);
+        System.out.println("----------------------------------------");
     }
 
     class EmailNotificationListener implements ClientRegistrationListener {
@@ -37,23 +40,17 @@ public class Bank implements Report {
         listeners.add(actionListener);
     }
 
-    public List<Client> getClients() {
-        return Collections.unmodifiableList(clients); //Collections.unmodifiableList ??
+    public Set<ClientRegistrationListener> getListeners() {
+        return Collections.unmodifiableSet(listeners);
     }
 
-    @Override
-    public void printReport() {
-        clients.forEach(Client::printReport);
-        System.out.println("----------------------------------------");
-    }
-
-    private List<ClientRegistrationListener> getListeners() {
-        return listeners;
+    public Set<Client> getClients() {
+        return Collections.unmodifiableSet(clients);
     }
 
     public void addClient(Client client) {
         try {
-            if (this.getClients().indexOf(client) != -1) {
+            if (this.getClients().contains(client)) {
                 throw new ClientExistsException(client);
             } else {
                 clients.add(client);
@@ -76,8 +73,7 @@ public class Bank implements Report {
 
     public Client getClientByName(String name) throws ClientDoesNotExistException {
         boolean clientFoundFlag = false;
-        for (Iterator<Client> iterator = clients.iterator(); iterator.hasNext(); ) {
-            Client client = iterator.next();
+        for (Client client : clients) {
             if (client.getName().equals(name)) {
                 clientFoundFlag = true;
                 return client;
