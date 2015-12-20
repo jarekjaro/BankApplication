@@ -2,7 +2,7 @@ package com.luxoft.bankapp.model;
 
 import java.util.*;
 
-public class Client implements Report {
+public class Client implements Report, Comparable<Client> {
 
     private String name;
     private String surname;
@@ -97,5 +97,10 @@ public class Client implements Report {
         result = 31 * result + gender.hashCode();
         result = 31 * result + accounts.hashCode();
         return result;
+    }
+
+    @Override
+    public int compareTo(Client o) {
+        return name.compareTo(o.name);
     }
 }
