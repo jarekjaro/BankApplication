@@ -1,15 +1,10 @@
 package com.luxoft.bankapp.commands;
 
-import com.luxoft.bankapp.commands.Command;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
-import com.luxoft.bankapp.exceptions.OverdraftLimitExceededException;
 import com.luxoft.bankapp.service.BankCommander;
 
 import java.util.Scanner;
 
-/**
- * Created by jaro on 12/16/15.
- */
 public class WithdrawCommand implements Command {
     @Override
     public void execute() {
