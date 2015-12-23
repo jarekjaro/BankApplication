@@ -10,15 +10,14 @@ public class BankApplication {
     public static void main(String[] args) {
         Bank bank1 = new Bank();
         initialize(bank1);
+        if (args[0].equals("report")) {
+            bank1.printReport();
+            System.exit(0);
+        }
         bank1.printReport();
         modifyBank(bank1);
         bank1.printReport();
         bank1.getClients().forEach(System.out::println);
-//
-//        List<Client> clients = bank1.getClients();
-//        for (int i = 0;i<bank1.getClients().size();i++) {
-//            System.out.println(clients.get(i));
-//        }
         bank1.getClients().forEach(client ->{
             client.getAccounts().forEach(account -> account.decimalValue());
         });
@@ -49,10 +48,10 @@ public class BankApplication {
     private static void modifyBank(Bank bankToModify) {
         Set<Client> listOfClients = bankToModify.getClients();
         Set<Account> listToModify = new TreeSet<>();
-        listOfClients.forEach(client -> {
-            Set<Account> listOfClientAccounts = client.getAccounts();
-            listOfClientAccounts.forEach(listToModify::add);
-        });
+//        listOfClients.forEach(client -> {
+//            Set<Account> listOfClientAccounts = client.getAccounts();
+//            listOfClientAccounts.forEach(listToModify::add);
+//        });
 
         Random rand = new Random();
         listToModify.forEach(account -> account.deposit(rand.nextFloat() * 10000));
