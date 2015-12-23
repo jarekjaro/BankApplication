@@ -3,41 +3,55 @@ package com.luxoft.bankapp.service;
 import com.luxoft.bankapp.commands.*;
 import com.luxoft.bankapp.model.*;
 
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class BankCommander {
     public static Bank currentBank = new Bank();
     public static Client currentClient;
     public static Client currentReceivingClient;
     public static BankServiceImpl bs = new BankServiceImpl();
-    static Command[] commands = {
-            new FindClientCommand(),
-            new AddClientCommand(),
-            new GetAccountsCommand(),
-            new DepositCommand(),
-            new WithdrawCommand(),
-            new TransferCommand(),
-            new Command() {
-                public void execute() {
-                    System.exit(0);
-                }
+    public static Map<String, Command> commands = new TreeMap<>();
 
-                public void printCommandInfo() {
-                    System.out.println("Exit");
-                }
-            }
-    };
+    public static void registerCommand(String name, Command command) {
+        commands.put(name, command);
+    }
+
+    public static void removeCommand(String name) {
+        commands.remove(name);
+    }
 
     public static void main(String args[]) {
         BankApplication.initialize(currentBank);
+        registerCommand("FindClientCommand", new FindClientCommand());
+        registerCommand("AddClientCommand", new AddClientCommand());
+        registerCommand("GetAccountsCommand", new GetAccountsCommand());
+        registerCommand("Deposit Command", new DepositCommand());
+        registerCommand("Withdraw Command", new WithdrawCommand());
+        registerCommand("TransferCommand", new TransferCommand());
+        registerCommand("Exit", new Command() {
+            public void execute() {
+                System.exit(0);
+            }
+
+            public void printCommandInfo() {
+                System.out.println("Exit");
+            }
+        });
         Scanner sc = new Scanner(System.in);
         boolean flagOfClient = false;
         while (true) {
             if (flagOfClient) System.out.println(currentClient.getClientSalutation() + currentClient.getName());
-            for (int i = 0; i < commands.length; i++) { // show menu
+            int i = 1;
+            for (Iterator iterator = commands.entrySet().iterator(); iterator.hasNext(); ) {
+                Map.Entry<String, Command> next = (Map.Entry<String, Command>) iterator.next();
                 System.out.print(i + ") ");
-                commands[i].printCommandInfo();
+                System.out.println(next.getKey());
+                i++;
             }
+            i = 1;
             System.out.println();
             int commandNumber;
             boolean commandFlag = true;
@@ -45,16 +59,46 @@ public class BankCommander {
                 String commandNumberStr = sc.nextLine(); // initialize command with commandString
                 try {
                     commandNumber = Integer.parseInt(commandNumberStr);
-                    if ((commandNumber >= 0) && commandNumber <= (commands.length - 1)) {
+                    if ((commandNumber >= 1) && commandNumber <= (commands.size())) {
                         commandFlag = false;
-                        if (commandNumber == 0) flagOfClient = true;
-                        commands[commandNumber].printCommandInfo();
-                        commands[commandNumber].execute();
-                    } else{
-                        System.out.println("Please provide a positive integer value between (0-" + (commands.length - 1) + ")");
+                        if (commandNumber == 4) flagOfClient = true;
+                        switch (commandNumber) {
+                            case 1:
+                                commands.get("AddClientCommand").execute();
+                                break;
+                            case 2: {
+                                if (flagOfClient)
+                                    commands.get("Deposit Command").execute();
+                                else System.err.println("Find client first!");
+                                break;
+                            }
+                            case 3:
+                                commands.get("Exit").execute();
+                                break;
+                            case 4:
+                                commands.get("FindClientCommand").execute();
+                                break;
+                            case 5:
+                                if (flagOfClient)
+                                    commands.get("GetAccountsCommand").execute();
+                                else System.err.println("Find client first!");
+                                break;
+                            case 6:
+                                if (flagOfClient)
+                                    commands.get("TransferCommand").execute();
+                                else System.err.println("Find client first!");
+                                break;
+                            case 7:
+                                if (flagOfClient)
+                                    commands.get("Withdraw Command").execute();
+                                else System.err.println("Find client first!");
+                                break;
+                        }
+                    } else {
+                        System.out.println("Please provide a positive integer value between (1 - " + (commands.size()) + ")");
                     }
                 } catch (NumberFormatException e) {
-                    System.out.println("Please provide a positive integer value between (0-" + (commands.length - 1) + ")");
+                    System.out.println("Please provide a positive integer value between (1 - " + (commands.size()) + ")");
                 }
             } while (commandFlag);
         }
