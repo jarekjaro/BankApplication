@@ -30,7 +30,6 @@ public class BankCommander {
 
     public static void main(String args[]) {
         BankApplication.initialize(currentBank);
-
         Scanner sc = new Scanner(System.in);
         boolean flagOfClient = false;
         while (true) {

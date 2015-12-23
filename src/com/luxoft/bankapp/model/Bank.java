@@ -6,12 +6,14 @@ import com.luxoft.bankapp.exceptions.ClientExistsException;
 import java.util.*;
 
 public class Bank implements Report {
-    private final Set<Client> clients;
-    private final Set<ClientRegistrationListener> listeners;
+    private Set<Client> clients;
+    private Set<ClientRegistrationListener> listeners;
+    private Map<String, Client> clientMap;
 
     public Bank() {
         clients = new HashSet<>();
         listeners = new HashSet<>();
+        clientMap = new TreeMap<>();
         registerEvent(new PrintClientListener());
         registerEvent(new EmailNotificationListener());
     }
@@ -95,5 +97,9 @@ public class Bank implements Report {
 
     public Client getClient(Bank bank, String clientName) {
         return null;
+    }
+
+    public void addClientToMap(Client clientToAdd) {
+        clientMap.put(clientToAdd.getName(), clientToAdd);
     }
 }

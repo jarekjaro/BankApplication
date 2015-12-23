@@ -3,9 +3,7 @@ package com.luxoft.bankapp.service;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class BankApplication {
 
@@ -49,10 +47,10 @@ public class BankApplication {
     }
 
     private static void modifyBank(Bank bankToModify) {
-        List<Client> listOfClients = bankToModify.getClients();
-        List<Account> listToModify = new ArrayList<>();
+        Set<Client> listOfClients = bankToModify.getClients();
+        Set<Account> listToModify = new TreeSet<>();
         listOfClients.forEach(client -> {
-            List<Account> listOfClientAccounts = client.getAccounts();
+            Set<Account> listOfClientAccounts = client.getAccounts();
             listOfClientAccounts.forEach(listToModify::add);
         });
 

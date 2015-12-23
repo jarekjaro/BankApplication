@@ -13,6 +13,10 @@ public class Client implements Report, Comparable<Client> {
     private Account activeAccount;
     private float initialOverdraft;
 
+
+
+    private String city;
+
     public Client(String name, String surname, String phone, String email, float initialOverdraft) {
         this.name = name;
         this.surname = surname;
@@ -61,6 +65,9 @@ public class Client implements Report, Comparable<Client> {
         return name;
     }
 
+    public String getCity() {
+        return city;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
