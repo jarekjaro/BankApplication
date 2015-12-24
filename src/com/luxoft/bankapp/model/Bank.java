@@ -73,6 +73,10 @@ public class Bank implements Report {
         return clients.remove(client);
     }
 
+    public void parseFeed(Map<String,String> propertiesMap){
+        //TODO
+    }
+
     public Client getClientByName(String name) throws ClientDoesNotExistException {
         boolean clientFoundFlag = false;
         for (Client client : clients) {

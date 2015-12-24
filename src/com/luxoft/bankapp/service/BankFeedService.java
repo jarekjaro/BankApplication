@@ -22,7 +22,9 @@ public class BankFeedService {
                 propertiesMap.put(currentProperty[0], currentProperty[1]);
             }
         }
-
+        /**
+        * BankCommander.currentBank.parseFeed(propertiesMap);
+        */
         sc.close();
     }
 }
