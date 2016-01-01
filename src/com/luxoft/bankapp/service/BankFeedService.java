@@ -7,9 +7,8 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class BankFeedService {
-
     public static void loadFeed(String file) throws FileNotFoundException {
-        Map<String,String> propertiesMap =  new TreeMap<>();
+        Map<String, String> propertiesMap = new TreeMap<>();
         File fileToLoad = new File(file);
         Scanner sc = new Scanner(fileToLoad);
         while (sc.hasNextLine()) {
@@ -22,9 +21,7 @@ public class BankFeedService {
                 propertiesMap.put(currentProperty[0], currentProperty[1]);
             }
         }
-        /**
-        * BankCommander.currentBank.parseFeed(propertiesMap);
-        */
+        BankCommander.currentBank.parseFeed(propertiesMap);
         sc.close();
     }
 }

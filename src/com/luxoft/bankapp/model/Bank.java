@@ -73,8 +73,40 @@ public class Bank implements Report {
         return clients.remove(client);
     }
 
-    public void parseFeed(Map<String,String> propertiesMap){
+    public void parseFeed(Map<String, String> propertiesMap) {
         //TODO
+        String accounttype = null, balance = null, overdraft = null, name = null;
+        Gender gender = null;
+        Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();
+        parsedMap = propertiesMap.entrySet();
+        for (Iterator<Map.Entry<String, String>> parsedMapIterator = parsedMap.iterator(); parsedMapIterator.hasNext(); ) {
+            Map.Entry<String, String> mapEntry = parsedMapIterator.next();
+            switch (mapEntry.getKey()) {
+                case "accounttype":
+                    accounttype = mapEntry.getValue();
+                case "balance":
+                    balance = mapEntry.getValue();
+                case "overdraft":
+                    overdraft = mapEntry.getValue();
+                case "name":
+                    name = mapEntry.getValue();
+                case "gender":
+                    if (mapEntry.getValue().equalsIgnoreCase("f")) {
+                        gender = Gender.FEMALE;
+                    } else {
+                        gender = Gender.MALE;
+                    }
+            }
+        }
+        Client newClient = new Client(name, gender);
+        Account newAccount;
+        if (accounttype.equalsIgnoreCase("c")) {
+            newAccount = new CheckingAccount(Float.parseFloat(balance), Float.parseFloat(overdraft));
+        } else {
+            newAccount = new SavingAccount(Float.parseFloat(balance));
+        }
+        addAccount(newClient, newAccount);
+        //accounttype=c;balance=100;overdraft=50;name=John;gender=f;
     }
 
     public Client getClientByName(String name) throws ClientDoesNotExistException {
