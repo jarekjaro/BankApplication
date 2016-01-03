@@ -84,20 +84,26 @@ public class Bank implements Report {
             switch (mapEntry.getKey()) {
                 case "accounttype":
                     accounttype = mapEntry.getValue();
+                    break;
                 case "balance":
                     balance = mapEntry.getValue();
+                    break;
                 case "overdraft":
                     overdraft = mapEntry.getValue();
+                    break;
                 case "name":
                     name = mapEntry.getValue();
+                    break;
                 case "gender":
                     if (mapEntry.getValue().equalsIgnoreCase("f")) {
                         gender = Gender.FEMALE;
                     } else {
                         gender = Gender.MALE;
                     }
+                    break;
             }
         }
+
         Client newClient = new Client(name, gender);
         Account newAccount;
         if (accounttype.equalsIgnoreCase("c")) {
