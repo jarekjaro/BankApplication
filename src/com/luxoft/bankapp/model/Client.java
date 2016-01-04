@@ -92,9 +92,6 @@ public class Client implements Report, Comparable<Client>, Serializable {
         }
         return sb.toString();
     }
-    public void parseFeed(Map<String,String> propertiesMap){
-        //TODO
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -16,9 +16,4 @@ public interface Account extends Report {
         double rounded = ((double)temp)/Math.pow(10 , 2);
         System.out.printf("%,10.2f\n",rounded);
     }
-
-    default void parseFeed(Map<String,String> propertiesMap){
-        //TODO
-    }
-
 }
