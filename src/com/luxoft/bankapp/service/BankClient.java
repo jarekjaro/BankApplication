@@ -15,6 +15,11 @@ public class BankClient {
     String message;
     static final String SERVER = "localhost";
 
+    public static void main(final String args[]) {
+        BankClient client = new BankClient();
+        client.run();
+    }
+
     void run() {
         try {
             // 1. creating a socket to connect to the server
@@ -29,18 +34,34 @@ public class BankClient {
                 try {
                     message = (String) in.readObject();
                     System.out.println("server>" + message);
-                    if (readClientRequest() == 1) {
-                        sendMessage("check_balance");
-                    } else {
-                        sendMessage("withdraw_"+readAmount());
+                    switch (message) { //TODO
+                        case "how much":
+                            sendMessage(String.valueOf(readAmount()));
+                            break;
+                        default:
+                            if (message.equals("Connection successful")) {
+                                int clientRequest = readClientRequest();
+                                switch (clientRequest) {
+                                    case 1:
+                                        sendMessage("check_balance");
+                                        break;
+                                    case 2:
+                                        sendMessage("withdraw");
+                                        break;
+                                    case 3:
+                                        message = "disconnect";
+                                        sendMessage(message);
+                                        break;
+                                }
+                            } else if () {
+
+                            }
+                            break;
                     }
-                    sendMessage("Hi my server");
-                    message = "bye";
-                    sendMessage(message);
                 } catch (ClassNotFoundException classNot) {
                     System.err.println("data received in unknown format");
                 }
-            } while (!message.equals("bye"));
+            } while (!message.equals("disconnect"));
         } catch (UnknownHostException unknownHost) {
             System.err.println("You are trying to connect to an unknown host!");
         } catch (IOException ioException) {
@@ -57,7 +78,7 @@ public class BankClient {
         }
     }
 
-    void sendMessage(final String msg) {
+    private void sendMessage(final String msg) {
         try {
             out.writeObject(msg);
             out.flush();
@@ -67,12 +88,7 @@ public class BankClient {
         }
     }
 
-    public static void main(final String args[]) {
-        BankClient client = new BankClient();
-        client.run();
-    }
-
-    public static int readClientRequest() {
+    private static int readClientRequest() {
         Scanner sc = new Scanner(System.in);
         String parseCommand = "";
         boolean flag = true;
@@ -80,19 +96,20 @@ public class BankClient {
             System.out.println("Choose your operation:");
             System.out.println("(1) for checking balance");
             System.out.println("(2) to withdraw");
+            System.out.println("(3) to disconnect");
             parseCommand = sc.nextLine();
-            if (parseCommand.matches("[1-2]")) {
+            if (parseCommand.matches("[1-3]")) {
                 flag = false;
                 sc.close();
             } else {
-                System.err.println("You can only pick option (1) or option (2) !");
+                System.err.println("You can only pick option (1-3)");
             }
         }
         return Integer.parseInt(parseCommand);
     }
 
-    public static int readAmount() {
-        Scanner sc = new Scanner(System.in);
+    private static int readAmount() {
+        Scanner sc2 = new Scanner(System.in);
         String parseCommand = "";
         boolean flag = true;
         while (flag) {
@@ -104,25 +121,39 @@ public class BankClient {
             System.out.println("(5) 300");
             System.out.println("(6) 400");
             System.out.println("(7) other");
-            parseCommand = sc.nextLine();
-            if (parseCommand.matches("[1-7]")) {
-                flag = false;
-            } else {
-                System.err.println("You can only pick option (1-7)!");
-            }
-            if (parseCommand.equals("7")) {
-                boolean customAmountFlag = true;
-                while (customAmountFlag) {
-                    System.out.println("Enter the custom amount: ");
-                    sc.nextLine();
-                    if (parseCommand.matches("[0-9]*")) {
-                        customAmountFlag = false;
-                    } else {
-                        System.err.println("You should provide positive integer value!");
-                    }
+            System.out.println("(8) to go back");
+            parseCommand = sc2.nextLine();
+            if (parseCommand.matches("[1-8]")) {
+                switch (parseCommand) {
+                    case "7":
+                        parseCommand = readCustomAmount();
+                        break;
+                    case "8":
+                        flag = false;
+                        break;
                 }
+            } else {
+                System.err.println("You can only pick option (1-8)");
             }
         }
+        sc2.close();
         return Integer.parseInt(parseCommand);
+    }
+
+    private static String readCustomAmount() {
+        Scanner sc3 = new Scanner(System.in);
+        String parseCommand = "";
+        boolean customAmountFlag = true;
+        while (customAmountFlag) {
+            System.out.println("Enter custom amount: ");
+            sc3.nextLine();
+            if (parseCommand.matches("[0-9]{2,4}")) {
+                customAmountFlag = false;
+            } else {
+                System.err.println("You should provide positive integer value between (10-9999)");
+            }
+        }
+        sc3.close();
+        return parseCommand;
     }
 }

@@ -7,20 +7,17 @@ public class Client implements Report, Comparable<Client>, Serializable {
     private static final long serialVersionUID = -6733881985047382792L;
     private String name;
     private String surname;
-
-    public Gender getGender() {
-        return gender;
-    }
-
     private Gender gender;
     Set<Account> accounts;
     private String phone;
     private String email;
     private Account activeAccount;
     private float initialOverdraft;
-
-
     private String city;
+
+    public Client(float initialOverdraft) {
+        this.initialOverdraft = initialOverdraft;
+    }
 
     public Client(String name, String surname, String phone, String email, float initialOverdraft) {
         this.name = name;
@@ -40,14 +37,15 @@ public class Client implements Report, Comparable<Client>, Serializable {
         this.name = name;
         this.gender = gender;
         this.accounts = new HashSet<>(2);
+        this.activeAccount = null;
     }
 
     public Account getActiveAccount() {
         return activeAccount;
     }
 
-    public Client(float initialOverdraft) {
-        this.initialOverdraft = initialOverdraft;
+    public Gender getGender() {
+        return gender;
     }
 
     public void setActiveAccount(Account activeAccount) {

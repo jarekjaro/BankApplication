@@ -1,5 +1,7 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
+import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Bank;
 
 import java.io.IOException;
@@ -17,7 +19,7 @@ public class BankServer {
     String message;
 
     public BankServer(Bank bank) {
-        this.bank=bank;
+        this.bank = bank;
     }
 
     void run() {
@@ -38,13 +40,34 @@ public class BankServer {
                 try {
                     message = (String) in.readObject();
                     System.out.println("client>" + message);
-                    if (message.equals("bye")) {
-                        sendMessage("bye");
+                    switch (message) {
+                        case "check_balance":
+                            try {
+                                //client janusz as example
+                                sendMessage("Balance is: " +String.valueOf(String.format("%,10.2f",checkBalance("Janusz"))));
+                            } catch (ClientDoesNotExistException e) {
+                                sendMessage("Client does not exist!");
+                            }
+                            break;
+                        case "withdraw":
+                            sendMessage("how much");
+                        case "disconnect":
+                            break;
+                        default://TODO
+                            try {
+                                //client janusz as example
+                                withdraw("Janusz", Integer.parseInt(message));
+                            } catch (ClientDoesNotExistException e) {
+                                sendMessage("client does not exist");
+                            } catch (NotEnoughFundsException e) {
+                                sendMessage("not enough funds");
+                            }
+                            break;
                     }
                 } catch (ClassNotFoundException e) {
                     System.err.println("Data received in unknown format");
                 }
-            } while (!message.equals("bye"));
+            } while (!message.equals("disconnect"));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -57,6 +80,14 @@ public class BankServer {
                 ioException.printStackTrace();
             }
         }
+    }
+
+    private void withdraw(String clientName, Integer amountToWithdraw) throws ClientDoesNotExistException, NotEnoughFundsException {
+        bank.getClientByName(clientName).getActiveAccount().withdraw(amountToWithdraw);
+    }
+
+    private float checkBalance(String clientName) throws ClientDoesNotExistException {
+        return bank.getClientByName(clientName).getActiveAccount().getBalance();
     }
 
     private void sendMessage(String message) {

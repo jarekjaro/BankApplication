@@ -36,8 +36,12 @@ public class BankApplication {
         Random rand = new Random();
         //for each client add a fixed number of accounts with random starting balance and overdraft
         for (Client client : clientInit) {
-            bank1.addAccount(client, new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000));
-            bank1.addAccount(client, new SavingAccount(rand.nextFloat() * 100000));
+            Account accountToAdd = new CheckingAccount(rand.nextFloat() * 100000, rand.nextFloat()*1000);
+            //checking account is active by default
+            client.setActiveAccount(accountToAdd);
+            bank1.addAccount(client, accountToAdd);
+            accountToAdd=new SavingAccount(rand.nextFloat() * 100000);
+            bank1.addAccount(client, accountToAdd);
         }
 
         for (Client client : clientInit) {
