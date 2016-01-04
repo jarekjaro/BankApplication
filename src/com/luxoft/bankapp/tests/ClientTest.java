@@ -5,9 +5,6 @@ import com.luxoft.bankapp.model.Gender;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-/**
- * Created by jaro on 12/16/15.
- */
 public class ClientTest {
 
     Client[] clientInit = new Client[]{

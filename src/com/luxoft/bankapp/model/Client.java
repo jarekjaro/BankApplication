@@ -1,11 +1,17 @@
 package com.luxoft.bankapp.model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Client implements Report, Comparable<Client> {
-
+public class Client implements Report, Comparable<Client>, Serializable {
+    private static final long serialVersionUID = -6733881985047382792L;
     private String name;
     private String surname;
+
+    public Gender getGender() {
+        return gender;
+    }
+
     private Gender gender;
     Set<Account> accounts;
     private String phone;
