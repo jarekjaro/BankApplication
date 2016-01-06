@@ -3,7 +3,6 @@ package com.luxoft.bankapp.service;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InterfaceAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -34,29 +33,33 @@ public class BankClient {
                 try {
                     message = (String) in.readObject();
                     System.out.println("server>" + message);
-                    switch (message) { //TODO
-                        case "how much":
-                            sendMessage(String.valueOf(readAmount()));
-                            break;
-                        default:
-                            if (message.equals("Connection successful")) {
-                                int clientRequest = readClientRequest();
-                                switch (clientRequest) {
-                                    case 1:
-                                        sendMessage("check_balance");
-                                        break;
-                                    case 2:
-                                        sendMessage("withdraw");
-                                        break;
-                                    case 3:
-                                        message = "disconnect";
-                                        sendMessage(message);
-                                        break;
-                                }
-                            } else if () {
-
+                    if (message.equals("Connection successful")) {
+                        while (true) {
+                            printMainMenu();
+                            int clientRequest = readClientRequest();
+                            if (clientRequest == 1) sendMessage("check_balance");
+                            else if (clientRequest == 2) sendMessage("withdraw");
+                            else {
+                                message = "disconnect";
+                                sendMessage(message);
+                                break;
                             }
-                            break;
+                            try {
+                                message = (String) in.readObject();
+                                System.out.println("server>" + message);
+                                if (message.equals("how much")) {
+                                    printAmountMenu();
+                                    int amount = readAmount();
+                                    sendMessage(String.valueOf(amount));
+                                } else if (message.matches("Balance is:.*")) {
+                                    System.out.println(message);
+                                } else {
+                                    System.err.println(message);
+                                }
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 } catch (ClassNotFoundException classNot) {
                     System.err.println("data received in unknown format");
@@ -88,52 +91,52 @@ public class BankClient {
         }
     }
 
+    private static void printMainMenu() {
+        System.out.println("Choose your operation:");
+        System.out.println("(1) for checking balance");
+        System.out.println("(2) to withdraw");
+        System.out.println("(3) to disconnect");
+    }
+
+    private static void printAmountMenu() {
+        System.out.println("Choose the amount to withdraw");
+        System.out.println("(1) 20");
+        System.out.println("(2) 50");
+        System.out.println("(3) 100");
+        System.out.println("(4) 200");
+        System.out.println("(5) 300");
+        System.out.println("(6) 400");
+        System.out.println("(7) other");
+        System.out.println("(8) to go back");
+    }
+
     private static int readClientRequest() {
-        Scanner sc = new Scanner(System.in);
-        String parseCommand = "";
-        boolean flag = true;
-        while (flag) {
-            System.out.println("Choose your operation:");
-            System.out.println("(1) for checking balance");
-            System.out.println("(2) to withdraw");
-            System.out.println("(3) to disconnect");
-            parseCommand = sc.nextLine();
+        Scanner sc1 = new Scanner(System.in);
+        String parseCommand;
+        while (true) {
+            parseCommand = sc1.nextLine();
             if (parseCommand.matches("[1-3]")) {
-                flag = false;
-                sc.close();
+                break;
             } else {
                 System.err.println("You can only pick option (1-3)");
             }
         }
+        sc1.close();
         return Integer.parseInt(parseCommand);
     }
 
     private static int readAmount() {
         Scanner sc2 = new Scanner(System.in);
-        String parseCommand = "";
-        boolean flag = true;
-        while (flag) {
-            System.out.println("Choose the amount to withdraw");
-            System.out.println("(1) 20");
-            System.out.println("(2) 50");
-            System.out.println("(3) 100");
-            System.out.println("(4) 200");
-            System.out.println("(5) 300");
-            System.out.println("(6) 400");
-            System.out.println("(7) other");
-            System.out.println("(8) to go back");
+        String parseCommand;
+        while (true) {
             parseCommand = sc2.nextLine();
             if (parseCommand.matches("[1-8]")) {
-                switch (parseCommand) {
-                    case "7":
-                        parseCommand = readCustomAmount();
-                        break;
-                    case "8":
-                        flag = false;
-                        break;
+                if (parseCommand.equals(7)) {
+                    parseCommand = readCustomAmount();
+                    break;
+                } else {
+                    System.err.println("You can only pick option (1-8)");
                 }
-            } else {
-                System.err.println("You can only pick option (1-8)");
             }
         }
         sc2.close();
@@ -143,12 +146,11 @@ public class BankClient {
     private static String readCustomAmount() {
         Scanner sc3 = new Scanner(System.in);
         String parseCommand = "";
-        boolean customAmountFlag = true;
-        while (customAmountFlag) {
+        while (true) {
             System.out.println("Enter custom amount: ");
             sc3.nextLine();
             if (parseCommand.matches("[0-9]{2,4}")) {
-                customAmountFlag = false;
+                break;
             } else {
                 System.err.println("You should provide positive integer value between (10-9999)");
             }
