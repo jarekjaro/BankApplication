@@ -5,6 +5,7 @@ import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.model.Gender;
 import com.luxoft.bankapp.service.BankApplication;
+import com.luxoft.bankapp.service.BankFeedService;
 import com.luxoft.bankapp.service.BankService;
 import com.luxoft.bankapp.service.BankServiceImpl;
 import org.junit.Before;
@@ -47,5 +48,11 @@ public class TestSerialization {
             assertEquals(clientInit[i].getName(),nameFromFile);
             assertEquals(clientInit[i].getGender(),genderFromFile);
         }
+    }
+    @Test
+    public void testLoadFeed() throws FileNotFoundException {
+        String testFilePath ="testFile";
+        BankFeedService.loadFeed(testFilePath);
+
     }
 }

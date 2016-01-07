@@ -3,6 +3,7 @@ package com.luxoft.bankapp.service;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.model.*;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class BankApplication {
@@ -10,17 +11,27 @@ public class BankApplication {
     public static void main(String[] args) {
         Bank bank1 = new Bank();
         initialize(bank1);
-        if (args[0].equals("report")) {
-            bank1.printReport();
-            System.exit(0);
+        BankFeedService bankService = new BankFeedService();
+        String testFilePath = "test.txt";
+        try {
+            bankService.loadFeed(testFilePath);
+            bank1.getClients().forEach(System.out::println);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        bank1.printReport();
-        modifyBank(bank1);
-        bank1.printReport();
-        bank1.getClients().forEach(System.out::println);
-        bank1.getClients().forEach(client ->{
-            client.getAccounts().forEach(account -> account.decimalValue());
-        });
+
+
+//        if (args[0].equals("report")) {
+//            bank1.printReport();
+//            System.exit(0);
+//        }
+//        bank1.printReport();
+//        modifyBank(bank1);
+//        bank1.printReport();
+//        bank1.getClients().forEach(System.out::println);
+//        bank1.getClients().forEach(client ->{
+//            client.getAccounts().forEach(account -> account.decimalValue());
+//        });
     }
 
     public static void initialize(Bank bank1) {

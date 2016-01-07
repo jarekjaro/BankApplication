@@ -40,6 +40,41 @@ public class Client implements Report, Comparable<Client>, Serializable {
         this.activeAccount = null;
     }
 
+    public void parseFeed(Map<String, String> propertiesMap) {
+        String accountType = null, name = null;
+        Gender gender = null;
+        Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();
+        parsedMap = propertiesMap.entrySet();
+        for (Iterator<Map.Entry<String, String>> parsedMapIterator = parsedMap.iterator(); parsedMapIterator.hasNext(); ) {
+            Map.Entry<String, String> mapEntry = parsedMapIterator.next();
+            switch (mapEntry.getKey()) {
+                case "name":
+                    name = mapEntry.getValue();
+                    break;
+                case "accounttype":
+                    accountType = mapEntry.getValue();
+                    break;
+                case "gender":
+                    if (mapEntry.getValue().equalsIgnoreCase("f")) {
+                        gender = Gender.FEMALE;
+                    } else {
+                        gender = Gender.MALE;
+                    }
+                    break;
+            }
+        }
+        Account accountToParse;
+        if (accountType.equalsIgnoreCase("c")) {
+            accountToParse = new CheckingAccount(0, 0);
+            accountToParse.parseFeed(propertiesMap);
+        } else {
+            accountToParse = new SavingAccount(0);
+            accountToParse.parseFeed(propertiesMap);
+        }
+
+        accounts.add(accountToParse);
+    }
+
     public Account getActiveAccount() {
         return activeAccount;
     }

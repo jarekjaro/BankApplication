@@ -2,6 +2,11 @@ package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.exceptions.OverdraftLimitExceededException;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class CheckingAccount extends AbstractAccount {
 
     private float overdraft;
@@ -22,7 +27,24 @@ public class CheckingAccount extends AbstractAccount {
     public float getOverdraft() {
         return overdraft;
     }
-
+    public void parseFeed(Map<String, String> propertiesMap) {
+        String accountType = null, balance = null, overdraft = null;
+        Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();
+        parsedMap = propertiesMap.entrySet();
+        for (Iterator<Map.Entry<String, String>> parsedMapIterator = parsedMap.iterator(); parsedMapIterator.hasNext(); ) {
+            Map.Entry<String, String> mapEntry = parsedMapIterator.next();
+            switch (mapEntry.getKey()) {
+                case "balance":
+                    balance = mapEntry.getValue();
+                    break;
+                case "overdraft":
+                    overdraft = mapEntry.getValue();
+                    break;
+            }
+        }
+        this.balance = Float.parseFloat(balance);
+        this.overdraft = Float.parseFloat(overdraft);
+    }
     @Override
     public void withdraw(float amount) throws OverdraftLimitExceededException {
         if (getBalance() >= amount - overdraft) {

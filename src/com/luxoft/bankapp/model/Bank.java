@@ -74,7 +74,6 @@ public class Bank implements Report {
     }
 
     public void parseFeed(Map<String, String> propertiesMap) {
-        //TODO
         String accounttype = null, balance = null, overdraft = null, name = null;
         Gender gender = null;
         Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();
@@ -103,15 +102,9 @@ public class Bank implements Report {
                     break;
             }
         }
-
         Client newClient = new Client(name, gender);
-        Account newAccount;
-        if (accounttype.equalsIgnoreCase("c")) {
-            newAccount = new CheckingAccount(Float.parseFloat(balance), Float.parseFloat(overdraft));
-        } else {
-            newAccount = new SavingAccount(Float.parseFloat(balance));
-        }
-        addAccount(newClient, newAccount);
+        newClient.parseFeed(propertiesMap);
+        addClient(newClient);
         //accounttype=c;balance=100;overdraft=50;name=John;gender=f;
     }
 
