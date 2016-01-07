@@ -5,7 +5,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class BankClient {
     Socket requestSocket;
@@ -20,6 +22,7 @@ public class BankClient {
     }
 
     void run() {
+        Scanner sc = new Scanner(System.in);
         try {
             // 1. creating a socket to connect to the server
             requestSocket = new Socket(SERVER, 2004);
@@ -36,7 +39,7 @@ public class BankClient {
                     if (message.equals("Connection successful")) {
                         while (true) {
                             printMainMenu();
-                            int clientRequest = readClientRequest();
+                            int clientRequest = readClientRequest(sc);
                             if (clientRequest == 1) sendMessage("check_balance");
                             else if (clientRequest == 2) sendMessage("withdraw");
                             else {
@@ -49,8 +52,18 @@ public class BankClient {
                                 System.out.println("server>" + message);
                                 if (message.equals("how much")) {
                                     printAmountMenu();
-                                    int amount = readAmount();
-                                    sendMessage(String.valueOf(amount));
+                                    int amount = readAmount(sc);
+                                    if (amount > 9) {
+                                        sendMessage(String.valueOf(amount));
+                                        message = (String) in.readObject();
+                                        if (message.equals("Not enough funds!")) {
+                                            System.err.println(message);
+                                            System.err.println("Please check your balance!");
+                                        } else {
+                                            System.out.println("server>" + message);
+                                            System.out.println(message);
+                                        }
+                                    }
                                 } else if (message.matches("Balance is:.*")) {
                                     System.out.println(message);
                                 } else {
@@ -79,6 +92,7 @@ public class BankClient {
                 ioException.printStackTrace();
             }
         }
+        sc.close();
     }
 
     private void sendMessage(final String msg) {
@@ -110,52 +124,58 @@ public class BankClient {
         System.out.println("(8) to go back");
     }
 
-    private static int readClientRequest() {
-        Scanner sc1 = new Scanner(System.in);
+    private static int readClientRequest(Scanner scanner) {
         String parseCommand;
         while (true) {
-            parseCommand = sc1.nextLine();
+            parseCommand = scanner.nextLine();
             if (parseCommand.matches("[1-3]")) {
                 break;
             } else {
                 System.err.println("You can only pick option (1-3)");
             }
         }
-        sc1.close();
         return Integer.parseInt(parseCommand);
     }
 
-    private static int readAmount() {
-        Scanner sc2 = new Scanner(System.in);
+    private static int readAmount(Scanner scanner) {
         String parseCommand;
+        Map<Integer, Integer> amountsToWithdrawMap = new TreeMap<>();
+        amountsToWithdrawMap.put(1, 20);
+        amountsToWithdrawMap.put(2, 50);
+        amountsToWithdrawMap.put(3, 100);
+        amountsToWithdrawMap.put(4, 200);
+        amountsToWithdrawMap.put(5, 300);
+        amountsToWithdrawMap.put(6, 400);
         while (true) {
-            parseCommand = sc2.nextLine();
+            parseCommand = scanner.nextLine();
             if (parseCommand.matches("[1-8]")) {
-                if (parseCommand.equals(7)) {
-                    parseCommand = readCustomAmount();
+                if (parseCommand.equals(String.valueOf(7))) {
+                    parseCommand = readCustomAmount(scanner);
+                    break;
+                } else if (parseCommand.matches("[1-6]")) {
+                    parseCommand = String.valueOf(amountsToWithdrawMap.get(Integer.parseInt(parseCommand)));
+                    break;
+                } else if (parseCommand.matches("[8]")) {
                     break;
                 } else {
                     System.err.println("You can only pick option (1-8)");
                 }
             }
         }
-        sc2.close();
         return Integer.parseInt(parseCommand);
     }
 
-    private static String readCustomAmount() {
-        Scanner sc3 = new Scanner(System.in);
+    private static String readCustomAmount(Scanner scanner) {
         String parseCommand = "";
         while (true) {
             System.out.println("Enter custom amount: ");
-            sc3.nextLine();
+            parseCommand = scanner.nextLine();
             if (parseCommand.matches("[0-9]{2,4}")) {
                 break;
             } else {
                 System.err.println("You should provide positive integer value between (10-9999)");
             }
         }
-        sc3.close();
         return parseCommand;
     }
 }

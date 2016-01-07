@@ -57,6 +57,7 @@ public class BankServer {
                             try {
                                 //client janusz as example
                                 withdraw("Janusz", Integer.parseInt(message));
+                                sendMessage("Withdrawn: "+message);
                             } catch (ClientDoesNotExistException e) {
                                 sendMessage("Client does not exist!");
                             } catch (NotEnoughFundsException e) {
