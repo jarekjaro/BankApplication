@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.tests;
+package tests;
 
 import com.luxoft.bankapp.exceptions.FeedException;
 import com.luxoft.bankapp.model.Bank;

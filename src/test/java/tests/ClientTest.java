@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.tests;
+package tests;
 
 import com.luxoft.bankapp.model.Client;
 import com.luxoft.bankapp.model.Gender;

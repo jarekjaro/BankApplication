@@ -53,7 +53,7 @@ public class BankServer {
                             sendMessage("how much");
                         case "disconnect":
                             break;
-                        default://TODO
+                        default:
                             try {
                                 //client janusz as example
                                 withdraw("Janusz", Integer.parseInt(message));
