@@ -42,7 +42,10 @@ public class BankClient {
                             int clientRequest = readClientRequest(sc);
                             if (clientRequest == 1) sendMessage("check_balance");
                             else if (clientRequest == 2) sendMessage("withdraw");
-                            else {
+                            else if (clientRequest == 4) {
+                                String name = getLoginName(sc);
+                                sendMessage(name);
+                            } else {
                                 message = "disconnect";
                                 sendMessage(message);
                                 break;
@@ -66,6 +69,8 @@ public class BankClient {
                                     }
                                 } else if (message.matches("Balance is:.*")) {
                                     System.out.println(message);
+                                } else if (message.equals("login_successful")) {
+
                                 } else {
                                     System.err.println(message);
                                 }
@@ -95,6 +100,19 @@ public class BankClient {
         sc.close();
     }
 
+    private String getLoginName(Scanner scanner) {
+        String parseCommand;
+        while (true) {
+            System.out.println("Provide a login name:");
+            parseCommand = scanner.nextLine();
+            if (parseCommand.matches("[A-Z][a-z]*")) {
+                return parseCommand;
+            } else {
+                System.err.println("Provide a name starting with Capital letter!");
+            }
+        }
+    }
+
     private void sendMessage(final String msg) {
         try {
             out.writeObject(msg);
@@ -110,6 +128,7 @@ public class BankClient {
         System.out.println("(1) for checking balance");
         System.out.println("(2) to withdraw");
         System.out.println("(3) to disconnect");
+        System.out.println("(4) to login");
     }
 
     private static void printAmountMenu() {
@@ -128,7 +147,7 @@ public class BankClient {
         String parseCommand;
         while (true) {
             parseCommand = scanner.nextLine();
-            if (parseCommand.matches("[1-3]")) {
+            if (parseCommand.matches("[1-4]")) {
                 break;
             } else {
                 System.err.println("You can only pick option (1-3)");

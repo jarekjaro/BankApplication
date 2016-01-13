@@ -2,3 +2,5 @@ out/
 BankApplication.iml
 .idea/
 *.object
+target/
+*.txt

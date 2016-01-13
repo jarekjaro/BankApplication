@@ -10,19 +10,31 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankServerThreaded {
+    private static AtomicInteger connectionsCount = new AtomicInteger(0);
     private final int PORT = 2004;
+    private final int POOL_SIZE = 10;
     private ServerSocket serverSocket = null;
     private ExecutorService pool = null;
     private Socket clientSocket = null;
-    private final int POOL_SIZE = 10;
-    private static AtomicInteger connectionsCount = new AtomicInteger(0);
     private Bank currentBank;
 
     public BankServerThreaded(Bank bank) throws IOException {
         serverSocket = new ServerSocket(PORT, 10);
         pool = Executors.newFixedThreadPool(POOL_SIZE);
-        currentBank=bank;
+        currentBank = bank;
+    }
 
+    private static void decrementConnectionsAmount() {
+        connectionsCount.getAndDecrement();
+    }
+
+    public static void main(String[] args) throws IOException {
+        Bank bank1 = new Bank();
+        BankApplication.initialize(bank1);
+        BankServerThreaded bankServerThreaded = new BankServerThreaded(bank1);
+        while (true) {
+            bankServerThreaded.run();
+        }
     }
 
     public void run() {
@@ -41,18 +53,5 @@ public class BankServerThreaded {
 
     private static void incrementConnectionsAmount() {
         connectionsCount.getAndIncrement();
-    }
-
-    private static void decrementConnectionsAmount() {
-        connectionsCount.getAndDecrement();
-    }
-
-    public static void main(String[] args) throws IOException {
-        Bank bank1 = new Bank();
-        BankApplication.initialize(bank1);
-        BankServerThreaded bankServerThreaded = new BankServerThreaded(bank1);
-        while (true) {
-            bankServerThreaded.run();
-        }
     }
 }

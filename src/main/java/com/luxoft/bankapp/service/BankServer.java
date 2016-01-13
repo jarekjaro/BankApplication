@@ -11,15 +11,24 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class BankServer {
-    private Bank bank = null;
     ServerSocket providerSocket = null;
     Socket connection = null;
     ObjectOutputStream out;
     ObjectInputStream in;
     String message;
+    private Bank bank = null;
 
     public BankServer(Bank bank) {
         this.bank = bank;
+    }
+
+    public static void main(String[] args) {
+        Bank bank1 = new Bank();
+        BankApplication.initialize(bank1);
+        BankServer server = new BankServer(bank1);
+        while (true) {
+            server.run();
+        }
     }
 
     void run() {
@@ -44,7 +53,7 @@ public class BankServer {
                         case "check_balance":
                             try {
                                 //client janusz as example
-                                sendMessage("Balance is: " +String.valueOf(String.format("%,10.2f",checkBalance("Janusz"))));
+                                sendMessage("Balance is: " + String.valueOf(String.format("%,10.2f", checkBalance("Janusz"))));
                             } catch (ClientDoesNotExistException e) {
                                 sendMessage("Client does not exist!");
                             }
@@ -57,7 +66,7 @@ public class BankServer {
                             try {
                                 //client janusz as example
                                 withdraw("Janusz", Integer.parseInt(message));
-                                sendMessage("Withdrawn: "+message);
+                                sendMessage("Withdrawn: " + message);
                             } catch (ClientDoesNotExistException e) {
                                 sendMessage("Client does not exist!");
                             } catch (NotEnoughFundsException e) {
@@ -83,14 +92,6 @@ public class BankServer {
         }
     }
 
-    private void withdraw(String clientName, Integer amountToWithdraw) throws ClientDoesNotExistException, NotEnoughFundsException {
-        bank.getClientByName(clientName).getActiveAccount().withdraw(amountToWithdraw);
-    }
-
-    private float checkBalance(String clientName) throws ClientDoesNotExistException {
-        return bank.getClientByName(clientName).getActiveAccount().getBalance();
-    }
-
     private void sendMessage(String message) {
         try {
             out.writeObject(message);
@@ -101,12 +102,11 @@ public class BankServer {
         }
     }
 
-    public static void main(String[] args) {
-        Bank bank1 = new Bank();
-        BankApplication.initialize(bank1);
-        BankServer server = new BankServer(bank1);
-        while (true) {
-            server.run();
-        }
+    private float checkBalance(String clientName) throws ClientDoesNotExistException {
+        return bank.getClientByName(clientName).getActiveAccount().getBalance();
+    }
+
+    private void withdraw(String clientName, Integer amountToWithdraw) throws ClientDoesNotExistException, NotEnoughFundsException {
+        bank.getClientByName(clientName).getActiveAccount().withdraw(amountToWithdraw);
     }
 }
