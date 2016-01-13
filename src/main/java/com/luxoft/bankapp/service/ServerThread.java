@@ -7,9 +7,7 @@ import com.luxoft.bankapp.model.Bank;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerThread implements Runnable {
     Socket clientSocket = null;
@@ -18,10 +16,14 @@ public class ServerThread implements Runnable {
     String message;
     String currentClientName;
     private Bank bank = null;
+    private CounterService threadedClients;
+    private CounterService connectedClients;
 
-    public ServerThread(Socket clientSocket, Bank bank) {
+    public ServerThread(Socket clientSocket, Bank currentBank, CounterService threadedClients, CounterService connectedClients) {
         this.clientSocket = clientSocket;
-        this.bank = bank;
+        this.bank = currentBank;
+        this.threadedClients = threadedClients;
+        this.connectedClients = connectedClients;
     }
 
     public void run() {
@@ -31,6 +33,8 @@ public class ServerThread implements Runnable {
             out.flush();
             in = new ObjectInputStream(clientSocket.getInputStream());
             sendMessage("Connection successful");
+            threadedClients.incrementCounter();
+            System.out.println("Threads count is: " + threadedClients.getCounter());
             //4. the two parts communicate via the input and output streams
             do {
                 try {
@@ -45,7 +49,6 @@ public class ServerThread implements Runnable {
                         }
                     } else if (message.equals("check_balance")) {
                         try {
-                            //client janusz as example
                             sendMessage("Balance is: " + String.valueOf(String.format("%,10.2f", checkBalance(currentClientName))));
                         } catch (ClientDoesNotExistException e) {
                             sendMessage("Client does not exist!");
@@ -53,10 +56,12 @@ public class ServerThread implements Runnable {
                     } else if (message.equals("withdraw")) {
                         sendMessage("how much");
                     } else if (message.equals("disconnect")) {
+                        threadedClients.decrementCounter();
+                        connectedClients.decrementCounter();
+                        System.out.println("Threads count is: " + threadedClients.getCounter());
                         break;
                     } else if (message.matches("[0-9]*?.[0-9]*")) {
                         try {
-                            //client janusz as example
                             withdraw(currentClientName, Integer.parseInt(message));
                             sendMessage("Withdrawn: " + message);
                         } catch (ClientDoesNotExistException e) {
