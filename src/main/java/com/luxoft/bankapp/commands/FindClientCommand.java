@@ -25,6 +25,7 @@ public class FindClientCommand implements Command {
         System.out.println(foundClient);
         scanner.nextLine();
         BankCommander.currentClient = foundClient;
+        BankCommander.currentBank.addClientToMap(BankCommander.currentClient);
     }
 
     public Client findClient(String clientName) throws ClientDoesNotExistException {
