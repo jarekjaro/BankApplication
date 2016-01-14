@@ -1,24 +1,32 @@
 package com.luxoft.bankapp.commands;
 
-import com.luxoft.bankapp.commands.Command;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
-import com.luxoft.bankapp.exceptions.OverdraftLimitExceededException;
+import com.luxoft.bankapp.model.Account;
+import com.luxoft.bankapp.model.CheckingAccount;
+import com.luxoft.bankapp.model.SavingAccount;
 import com.luxoft.bankapp.service.BankCommander;
 
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
 
-/**
- * Created by jaro on 12/16/15.
- */
 public class WithdrawCommand implements Command {
     @Override
     public void execute() {
         Scanner sc = new Scanner(System.in);
         System.out.println("From which: (C)hecking account or (S)aving account would you like to withdraw?");
         if (sc.nextLine().equals("C")) {
-            BankCommander.currentClient.setActiveAccount(BankCommander.currentClient.getAccounts().get(0));
+            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
+                Account next = iterator.next();
+                if(next instanceof CheckingAccount) BankCommander.currentClient.setActiveAccount(next);
+            }
         } else {
-            BankCommander.currentClient.setActiveAccount(BankCommander.currentClient.getAccounts().get(1));
+            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
+                Account next = iterator.next();
+                if(next instanceof SavingAccount) BankCommander.currentClient.setActiveAccount(next);
+            }
         }
         boolean amountToWithdraw = true;
         do {
