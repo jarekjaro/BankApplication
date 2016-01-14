@@ -27,6 +27,7 @@ public class ServerThread implements Runnable {
     }
 
     public void run() {
+        System.out.println("Executing client...");
         //3. get Input and Output Streams
         try {
             out = new ObjectOutputStream(clientSocket.getOutputStream());

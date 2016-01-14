@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class BankServerThreaded {
     private final int PORT = 2004;
-    private final int MAX_POOL_SIZE = 10;
-    private final int CORE_POOL_SIZE = 1;
+    private final int MAX_POOL_SIZE = 3;
+    private final int CORE_POOL_SIZE = 2;
     protected ThreadPoolExecutor pool = null;
     private ServerSocket serverSocket = null;
     private Bank currentBank;
@@ -22,7 +22,7 @@ public class BankServerThreaded {
     private BankServerMonitor bankServerMonitor;
 
     public BankServerThreaded(Bank bank) throws IOException {
-        clientsToExecuteQue = new ArrayBlockingQueue<>(10, true);
+        clientsToExecuteQue = new ArrayBlockingQueue<>(11,true);
         serverSocket = new ServerSocket(PORT, 10);
         pool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, 1L, TimeUnit.DAYS, clientsToExecuteQue);
         currentBank = bank;
@@ -52,8 +52,8 @@ public class BankServerThreaded {
                 System.out.println("Adding client to the threads que...");
                 ServerThread currentThread = new ServerThread(clientSocket, currentBank, threadedClients, connectedClients);
                 pool.submit(currentThread);
-                System.out.println("Executing client...");
                 threadedClients.setCounter(pool.getActiveCount());
+                System.out.println(threadedClients);
                 System.gc();
             }
         } catch (IOException e) {

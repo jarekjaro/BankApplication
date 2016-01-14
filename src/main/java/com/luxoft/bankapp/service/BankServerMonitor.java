@@ -19,7 +19,7 @@ public class BankServerMonitor implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            queuedClients.setCounter(connectedClients.getCounter() - threadedClients.getCounter());
+            queuedClients.setCounter(connectedClients.getCounter() - threadedClients.getCounter()+1);
             System.out.println("Que size is currently: " + queuedClients.getCounter());
         }
     }
