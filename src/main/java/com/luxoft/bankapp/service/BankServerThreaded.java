@@ -1,6 +1,8 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.Client;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,8 +23,14 @@ public class BankServerThreaded {
     private BlockingQueue<Runnable> clientsToExecuteQue;
     private BankServerMonitor bankServerMonitor;
 
+    public static Client getCurrentClient() {
+        return currentClient;
+    }
+
+    public static Client currentClient;
+
     public BankServerThreaded(Bank bank) throws IOException {
-        clientsToExecuteQue = new ArrayBlockingQueue<>(10,true);
+        clientsToExecuteQue = new ArrayBlockingQueue<>(10, true);
         serverSocket = new ServerSocket(PORT, 10);
         pool = new ThreadPoolExecutor(CORE_POOL_SIZE, MAX_POOL_SIZE, 1L, TimeUnit.DAYS, clientsToExecuteQue);
         currentBank = bank;
@@ -31,9 +39,12 @@ public class BankServerThreaded {
         bankServerMonitor = new BankServerMonitor(connectedClients, threadedClients);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ClientDoesNotExistException {
         Bank bank1 = new Bank();
         BankApplication.initialize(bank1);
+        currentClient = bank1.getClientByName("Janusz");
+        bank1.getClientByName("Janusz").getActiveAccount().deposit(1000000);
+
         BankServerThreaded bankServerThreaded = new BankServerThreaded(bank1);
         while (true) {
             bankServerThreaded.run();
@@ -50,9 +61,10 @@ public class BankServerThreaded {
                 connectedClients.incrementCounter();
                 System.out.println("Connection received from " + clientSocket.getInetAddress().getHostName());
                 System.out.println("Adding client to the threads que...");
-                ServerThread currentThread = new ServerThread(clientSocket, currentBank, threadedClients, connectedClients);
+                ServerThread currentThread = new ServerThread(clientSocket, currentBank, threadedClients,
+                                                                connectedClients, currentClient);
                 pool.submit(currentThread);
-                threadedClients.setCounter(pool.getActiveCount()-1);
+                threadedClients.setCounter(pool.getActiveCount() - 1);
                 System.out.println(threadedClients);
                 System.gc();
             }

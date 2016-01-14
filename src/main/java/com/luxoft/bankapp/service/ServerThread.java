@@ -3,6 +3,7 @@ package com.luxoft.bankapp.service;
 import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.Client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -18,12 +19,14 @@ public class ServerThread implements Runnable {
     private Bank bank = null;
     private CounterService threadedClients;
     private CounterService connectedClients;
-
-    public ServerThread(Socket clientSocket, Bank currentBank, CounterService threadedClients, CounterService connectedClients) {
+    public Client currentClient;
+    public ServerThread(Socket clientSocket, Bank currentBank, CounterService threadedClients,
+                        CounterService connectedClients, Client currentClient) {
         this.clientSocket = clientSocket;
         this.bank = currentBank;
         this.threadedClients = threadedClients;
         this.connectedClients = connectedClients;
+        this.currentClient = currentClient;
     }
 
     public void run() {
@@ -50,7 +53,8 @@ public class ServerThread implements Runnable {
                         }
                     } else if (message.equals("check_balance")) {
                         try {
-                            sendMessage("Balance is: " + String.valueOf(String.format("%,10.2f", checkBalance(currentClientName))));
+                            sendMessage("Balance is: " + String.valueOf(//String.format("%,10.2f",
+                                    checkBalance(currentClientName)));
                         } catch (ClientDoesNotExistException e) {
                             sendMessage("Client does not exist!");
                         }
