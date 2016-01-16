@@ -63,9 +63,9 @@ public class BankReport {
 
         for (Iterator<String> iterator = city.iterator(); iterator.hasNext(); ) {
             Set<Client> clientsWithSameCity = new TreeSet<>();
-            String nextCity =  iterator.next();
+            String nextCity = iterator.next();
             for (Iterator<Client> clientIterator = bankClients.iterator(); clientIterator.hasNext(); ) {
-                Client nextClient =  clientIterator.next();
+                Client nextClient = clientIterator.next();
                 if (nextCity.equals(nextClient.getCity())) {
                     clientsWithSameCity.add(nextClient);
                 }
@@ -74,5 +74,4 @@ public class BankReport {
         }
         city.forEach(diffCity -> System.out.println(mapByCity.get(city)));
     }
-
 }

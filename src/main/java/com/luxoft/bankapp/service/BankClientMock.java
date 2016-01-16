@@ -52,7 +52,7 @@ public class BankClientMock implements Runnable {
                                 clientRequest = secondRequest;
                             } else if (z == 2) {
                                 clientRequest = thirdRequest;
-                            }else if (z == 3) {
+                            } else if (z == 3) {
                                 clientRequest = fourthRequest;
                             }
                             if (clientRequest == 1) sendMessage("check_balance");

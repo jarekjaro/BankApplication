@@ -1,7 +1,8 @@
 package com.luxoft.bankapp.service;
 
 import com.luxoft.bankapp.commands.*;
-import com.luxoft.bankapp.model.*;
+import com.luxoft.bankapp.model.Bank;
+import com.luxoft.bankapp.model.Client;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -14,10 +15,6 @@ public class BankCommander {
     public static Client currentReceivingClient;
     public static BankServiceImpl bs = new BankServiceImpl();
     public static Map<String, Command> commands = new TreeMap<>();
-
-    public static void registerCommand(String name, Command command) {
-        commands.put(name, command);
-    }
 
     public static void removeCommand(String name) {
         commands.remove(name);
@@ -102,5 +99,9 @@ public class BankCommander {
                 }
             } while (commandFlag);
         }
+    }
+
+    public static void registerCommand(String name, Command command) {
+        commands.put(name, command);
     }
 }

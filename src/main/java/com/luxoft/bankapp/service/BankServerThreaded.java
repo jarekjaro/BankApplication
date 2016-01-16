@@ -7,11 +7,13 @@ import com.luxoft.bankapp.model.Client;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Collection;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class BankServerThreaded {
+    public static Client currentClient;
     private final int PORT = 2004;
     private final int MAX_POOL_SIZE = 11;
     private final int CORE_POOL_SIZE = 11;
@@ -23,12 +25,6 @@ public class BankServerThreaded {
     private BlockingQueue<Runnable> clientsToExecuteQue;
     private BankServerMonitor bankServerMonitor;
 
-    public static Client getCurrentClient() {
-        return currentClient;
-    }
-
-    public static Client currentClient;
-
     public BankServerThreaded(Bank bank) throws IOException {
         clientsToExecuteQue = new ArrayBlockingQueue<>(10, true);
         serverSocket = new ServerSocket(PORT, 10);
@@ -37,6 +33,10 @@ public class BankServerThreaded {
         threadedClients = new CounterServiceImpl();
         connectedClients = new CounterServiceImpl();
         bankServerMonitor = new BankServerMonitor(connectedClients, threadedClients);
+    }
+
+    public static Client getCurrentClient() {
+        return currentClient;
     }
 
     public static void main(String[] args) throws IOException, ClientDoesNotExistException {
@@ -62,7 +62,7 @@ public class BankServerThreaded {
                 System.out.println("Connection received from " + clientSocket.getInetAddress().getHostName());
                 System.out.println("Adding client to the threads que...");
                 ServerThread currentThread = new ServerThread(clientSocket, currentBank, threadedClients,
-                                                                connectedClients, currentClient);
+                        connectedClients, currentClient);
                 pool.submit(currentThread);
                 threadedClients.setCounter(pool.getActiveCount() - 1);
                 System.out.println(threadedClients);

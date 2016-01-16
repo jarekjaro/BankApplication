@@ -18,13 +18,13 @@ public class DepositCommand implements Command {
             Set<Account> accountSet = BankCommander.currentClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if(next instanceof CheckingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof CheckingAccount) BankCommander.currentClient.setActiveAccount(next);
             }
         } else {
             Set<Account> accountSet = BankCommander.currentClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if(next instanceof SavingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof SavingAccount) BankCommander.currentClient.setActiveAccount(next);
             }
         }
         boolean amountOfDepositFlag = true;

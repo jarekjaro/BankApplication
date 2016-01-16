@@ -18,7 +18,7 @@ public class BankServerThreadedTest {
                 e.printStackTrace();
             }
             long amountAfterWithdraw = (long) clientMock.getAmountOnTheAccount();
-            long amountBeforeWithdraw = amountAfterWithdraw+1000;
+            long amountBeforeWithdraw = amountAfterWithdraw + 1000;
             if (i > 0) {
                 assertEquals(amountBeforeWithdraw - 1000, amountAfterWithdraw);
             }

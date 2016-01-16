@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ServerThread implements Runnable {
+    public Client currentClient;
     Socket clientSocket = null;
     ObjectOutputStream out;
     ObjectInputStream in;
@@ -19,7 +20,7 @@ public class ServerThread implements Runnable {
     private Bank bank = null;
     private CounterService threadedClients;
     private CounterService connectedClients;
-    public Client currentClient;
+
     public ServerThread(Socket clientSocket, Bank currentBank, CounterService threadedClients,
                         CounterService connectedClients, Client currentClient) {
         this.clientSocket = clientSocket;

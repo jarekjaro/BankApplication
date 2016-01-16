@@ -5,10 +5,10 @@ import java.util.*;
 
 public class Client implements Report, Comparable<Client>, Serializable {
     private static final long serialVersionUID = -6733881985047382792L;
+    Set<Account> accounts;
     private String name;
     private String surname;
     private Gender gender;
-    Set<Account> accounts;
     private String phone;
     private String email;
     private Account activeAccount;
@@ -79,25 +79,25 @@ public class Client implements Report, Comparable<Client>, Serializable {
         return activeAccount;
     }
 
-    public Gender getGender() {
-        return gender;
-    }
-
     public void setActiveAccount(Account activeAccount) {
         this.activeAccount = activeAccount;
+    }
+
+    public Gender getGender() {
+        return gender;
     }
 
     public Set<Account> getAccounts() {
         return Collections.unmodifiableSet(accounts);
     }
 
-    public String getClientSalutation() {
-        return gender.getSalutation() + " ";
-    }
-
     public void printReport() {
         System.out.printf("%s%s\n", getClientSalutation(), name);
         accounts.forEach(System.out::println);
+    }
+
+    public String getClientSalutation() {
+        return gender.getSalutation() + " ";
     }
 
     public String getName() {
@@ -106,6 +106,26 @@ public class Client implements Report, Comparable<Client>, Serializable {
 
     public String getCity() {
         return city;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + gender.hashCode();
+        result = 31 * result + accounts.hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (!name.equals(client.name)) return false;
+        if (gender != client.gender) return false;
+        return accounts.equals(client.accounts);
     }
 
     @Override
@@ -124,26 +144,6 @@ public class Client implements Report, Comparable<Client>, Serializable {
                     .append("; ");
         }
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Client client = (Client) o;
-
-        if (!name.equals(client.name)) return false;
-        if (gender != client.gender) return false;
-        return accounts.equals(client.accounts);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + gender.hashCode();
-        result = 31 * result + accounts.hashCode();
-        return result;
     }
 
     @Override
