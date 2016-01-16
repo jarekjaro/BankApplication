@@ -12,7 +12,7 @@ public class ClientExistsException extends Throwable {
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

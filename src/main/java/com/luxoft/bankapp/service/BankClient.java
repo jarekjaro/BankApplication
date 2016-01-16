@@ -10,11 +10,11 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class BankClient {
+    static final String SERVER = "localhost";
     Socket requestSocket;
     ObjectOutputStream out;
     ObjectInputStream in;
     String message;
-    static final String SERVER = "localhost";
 
     public static void main(final String args[]) {
         BankClient client = new BankClient();
@@ -100,47 +100,12 @@ public class BankClient {
         sc.close();
     }
 
-    private String getLoginName(Scanner scanner) {
-        String parseCommand;
-        while (true) {
-            System.out.println("Provide a login name:");
-            parseCommand = scanner.nextLine();
-            if (parseCommand.matches("[A-Z][a-z]*")) {
-                return parseCommand;
-            } else {
-                System.err.println("Provide a name starting with Capital letter!");
-            }
-        }
-    }
-
-    private void sendMessage(final String msg) {
-        try {
-            out.writeObject(msg);
-            out.flush();
-            System.out.println("client>" + msg);
-        } catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-    }
-
     private static void printMainMenu() {
         System.out.println("Choose your operation:");
         System.out.println("(1) for checking balance");
         System.out.println("(2) to withdraw");
         System.out.println("(3) to disconnect");
         System.out.println("(4) to login");
-    }
-
-    private static void printAmountMenu() {
-        System.out.println("Choose the amount to withdraw");
-        System.out.println("(1) 20");
-        System.out.println("(2) 50");
-        System.out.println("(3) 100");
-        System.out.println("(4) 200");
-        System.out.println("(5) 300");
-        System.out.println("(6) 400");
-        System.out.println("(7) other");
-        System.out.println("(8) to go back");
     }
 
     private static int readClientRequest(Scanner scanner) {
@@ -154,6 +119,41 @@ public class BankClient {
             }
         }
         return Integer.parseInt(parseCommand);
+    }
+
+    private void sendMessage(final String msg) {
+        try {
+            out.writeObject(msg);
+            out.flush();
+            System.out.println("client>" + msg);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+    }
+
+    private String getLoginName(Scanner scanner) {
+        String parseCommand;
+        while (true) {
+            System.out.println("Provide a login name:");
+            parseCommand = scanner.nextLine();
+            if (parseCommand.matches("[A-Z][a-z]*")) {
+                return parseCommand;
+            } else {
+                System.err.println("Provide a name starting with Capital letter!");
+            }
+        }
+    }
+
+    private static void printAmountMenu() {
+        System.out.println("Choose the amount to withdraw");
+        System.out.println("(1) 20");
+        System.out.println("(2) 50");
+        System.out.println("(3) 100");
+        System.out.println("(4) 200");
+        System.out.println("(5) 300");
+        System.out.println("(6) 400");
+        System.out.println("(7) other");
+        System.out.println("(8) to go back");
     }
 
     private static int readAmount(Scanner scanner) {

@@ -5,11 +5,11 @@ class BankException extends Exception {
     private final String message;
 
     public BankException() {
-        message="Bank Exception.";
+        message = "Bank Exception.";
     }
 
     @Override
-    public String getMessage(){
+    public String getMessage() {
         return message;
     }
 }

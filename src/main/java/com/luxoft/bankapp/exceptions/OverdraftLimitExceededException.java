@@ -10,13 +10,13 @@ public class OverdraftLimitExceededException extends NotEnoughFundsException {
         message = "Overdraft limit exceeded!";
     }
 
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
     public OverdraftLimitExceededException(CheckingAccount checkingAccount, float amountToWithdraw) {
         message = String.format("For account %-17s cannot withdraw %,10.2f.",
                                 checkingAccount, amountToWithdraw);
+    }
+
+    @Override
+    public String getMessage() {
+        return message;
     }
 }

@@ -20,13 +20,6 @@ public class CheckingAccount extends AbstractAccount {
         this.overdraft = overdraft;
     }
 
-    public void setOverdraft(float overdraft) {
-        this.overdraft = overdraft;
-    }
-
-    public float getOverdraft() {
-        return overdraft;
-    }
     public void parseFeed(Map<String, String> propertiesMap) {
         String accountType = null, balance = null, overdraft = null;
         Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();
@@ -45,13 +38,10 @@ public class CheckingAccount extends AbstractAccount {
         this.balance = Float.parseFloat(balance);
         this.overdraft = Float.parseFloat(overdraft);
     }
+
     @Override
-    public void withdraw(float amount) throws OverdraftLimitExceededException {
-        if (getBalance() >= amount - overdraft) {
-            balance -= amount;
-        } else {
-            throw new OverdraftLimitExceededException(this, amount);
-        }
+    public void printReport() {
+        System.out.println(this.toString());
     }
 
     @Override
@@ -59,9 +49,19 @@ public class CheckingAccount extends AbstractAccount {
         return String.format("Checking account %,10.2f with overdraft %,10.2f", this.getBalance(), this.getOverdraft());
     }
 
+    public float getOverdraft() {
+        return overdraft;
+    }
+
+    public void setOverdraft(float overdraft) {
+        this.overdraft = overdraft;
+    }
+
     @Override
-    public void printReport() {
-        System.out.println(this.toString());
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (overdraft != +0.0f ? Float.floatToIntBits(overdraft) : 0);
+        return result;
     }
 
     @Override
@@ -77,9 +77,11 @@ public class CheckingAccount extends AbstractAccount {
     }
 
     @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (overdraft != +0.0f ? Float.floatToIntBits(overdraft) : 0);
-        return result;
+    public void withdraw(float amount) throws OverdraftLimitExceededException {
+        if (getBalance() >= amount - overdraft) {
+            balance -= amount;
+        } else {
+            throw new OverdraftLimitExceededException(this, amount);
+        }
     }
 }

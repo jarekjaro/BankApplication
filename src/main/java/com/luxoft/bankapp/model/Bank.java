@@ -18,36 +18,19 @@ public class Bank implements Report {
         registerEvent(new EmailNotificationListener());
     }
 
+    private void registerEvent(ClientRegistrationListener actionListener) {
+        listeners.add(actionListener);
+    }
+
     @Override
     public void printReport() {
         clients.forEach(Client::printReport);
         System.out.println("----------------------------------------");
     }
 
-    class EmailNotificationListener implements ClientRegistrationListener {
-        @Override
-        public void onClientAdded(Client client) {
-            System.out.printf("Notification email for a client %11s to be sent.\n", client);
-        }
-    }
-
-    class PrintClientListener implements ClientRegistrationListener {
-        @Override
-        public void onClientAdded(Client client) {
-            System.out.printf("Client %11s added.\n", client);
-        }
-    }
-
-    private void registerEvent(ClientRegistrationListener actionListener) {
-        listeners.add(actionListener);
-    }
-
-    public Set<ClientRegistrationListener> getListeners() {
-        return Collections.unmodifiableSet(listeners);
-    }
-
-    public Set<Client> getClients() {
-        return Collections.unmodifiableSet(clients);
+    public void addNewClient(String name, String surname, String phone, String email, float initialOverdraft) {
+        Client clientToAdd = new Client(name, surname, phone, email, initialOverdraft);
+        addClient(clientToAdd);
     }
 
     public void addClient(Client client) {
@@ -64,9 +47,12 @@ public class Bank implements Report {
         }
     }
 
-    public void addNewClient(String name, String surname, String phone, String email, float initialOverdraft) {
-        Client clientToAdd = new Client(name, surname, phone, email, initialOverdraft);
-        addClient(clientToAdd);
+    public Set<Client> getClients() {
+        return Collections.unmodifiableSet(clients);
+    }
+
+    public Set<ClientRegistrationListener> getListeners() {
+        return Collections.unmodifiableSet(listeners);
     }
 
     public boolean removeClient(Client client) {
@@ -105,7 +91,6 @@ public class Bank implements Report {
         Client newClient = new Client(name, gender);
         newClient.parseFeed(propertiesMap);
         addClient(newClient);
-        //accounttype=c;balance=100;overdraft=50;name=John;gender=f;
     }
 
     public Client getClientByName(String name) throws ClientDoesNotExistException {
@@ -136,5 +121,19 @@ public class Bank implements Report {
 
     public void addClientToMap(Client clientToAdd) {
         clientMap.put(clientToAdd.getName(), clientToAdd);
+    }
+
+    class EmailNotificationListener implements ClientRegistrationListener {
+        @Override
+        public void onClientAdded(Client client) {
+            System.out.printf("Notification email for a client %11s to be sent.\n", client);
+        }
+    }
+
+    class PrintClientListener implements ClientRegistrationListener {
+        @Override
+        public void onClientAdded(Client client) {
+            System.out.printf("Client %11s added.\n", client);
+        }
     }
 }

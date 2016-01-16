@@ -12,11 +12,6 @@ public class SavingAccount extends AbstractAccount {
         super(balance);
     }
 
-    @Override
-    public String toString() {
-        return String.format("Saving account   %,10.2f", this.getBalance());
-    }
-
     public void parseFeed(Map<String, String> propertiesMap) {
         String accountType = null, balance = null, overdraft = null;
         Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();
@@ -29,18 +24,24 @@ public class SavingAccount extends AbstractAccount {
                     break;
             }
         }
-        this.balance=Float.parseFloat(balance);
+        this.balance = Float.parseFloat(balance);
     }
+
     public void withdraw(float amount) throws NotEnoughFundsException {
         if (getBalance() >= amount) {
             balance -= amount;
         } else {
-            throw new NotEnoughFundsException(this,amount);
+            throw new NotEnoughFundsException(this, amount);
         }
     }
 
     @Override
     public void printReport() {
         System.out.println(this.toString());
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Saving account   %,10.2f", this.getBalance());
     }
 }
