@@ -1,26 +1,11 @@
 package com.luxoft.bankapp.tests;
 
-import com.luxoft.bankapp.model.Bank;
-import com.luxoft.bankapp.service.BankApplication;
 import com.luxoft.bankapp.service.BankClientMock;
-import com.luxoft.bankapp.service.BankServerThreaded;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
-public class BankServerThreadedTest {
-    Thread threadedServerThread = new Thread();
 
-    @Before
-    public void runServer() throws IOException {
-        Bank bank1 = new Bank();
-        BankApplication.initialize(bank1);
-        BankServerThreaded serverThreaded = new BankServerThreaded(bank1);
-        serverThreaded.run();
-    }
+public class BankServerThreadedTest {
 
     @Test
     public void BankClientMockTest() throws InterruptedException {
