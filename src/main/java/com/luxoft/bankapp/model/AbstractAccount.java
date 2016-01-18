@@ -4,6 +4,7 @@ import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 
 abstract class AbstractAccount implements Account {
     float balance;
+    private int id;
 
     AbstractAccount(float balance) {
         this.balance = balance;

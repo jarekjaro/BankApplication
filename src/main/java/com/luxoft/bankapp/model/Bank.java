@@ -9,6 +9,7 @@ public class Bank implements Report {
     private Set<Client> clients;
     private Set<ClientRegistrationListener> listeners;
     private Map<String, Client> clientMap;
+    private int id;
 
     public Bank() {
         clients = new HashSet<>();

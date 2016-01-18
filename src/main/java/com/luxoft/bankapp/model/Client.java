@@ -14,6 +14,7 @@ public class Client implements Report, Comparable<Client>, Serializable {
     private Account activeAccount;
     private float initialOverdraft;
     private String city;
+    private int it;
 
     public Client(float initialOverdraft) {
         this.initialOverdraft = initialOverdraft;
