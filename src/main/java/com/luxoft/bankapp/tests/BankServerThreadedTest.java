@@ -1,4 +1,4 @@
-package tests;
+package com.luxoft.bankapp.tests;
 
 import com.luxoft.bankapp.service.BankClientMock;
 import org.junit.Test;
@@ -6,8 +6,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class BankServerThreadedTest {
+
     @Test
-    public void BankClientMockTest() {
+    public void BankClientMockTest() throws InterruptedException {
         BankClientMock clientMock = new BankClientMock();
         for (int i = 0; i < 1000; i++) {
             Thread newThread = new Thread(clientMock);

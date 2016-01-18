@@ -54,6 +54,5 @@ public class TestSerialization {
     public void testLoadFeed() throws FileNotFoundException {
         String testFilePath = "testFile";
         BankFeedService.loadFeed(testFilePath);
-
     }
 }
