@@ -2,19 +2,30 @@ package com.luxoft.bankapp.model;
 
 import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 
-abstract class AbstractAccount implements Account {
+public abstract class AbstractAccount implements Account {
     float balance;
     private int id;
+    private float overdraft;
 
     AbstractAccount(float balance) {
         this.balance = balance;
     }
 
+    public AbstractAccount(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public int hashCode() {
         return (balance != +0.0f ? Float.floatToIntBits(balance) : 0);
-    }    public float getBalance() {
-        return balance;
     }
 
     @Override
@@ -26,7 +37,9 @@ abstract class AbstractAccount implements Account {
 
         return Float.compare(that.balance, balance) == 0;
 
-    }    public void deposit(float x) {
+    }
+
+    public void deposit(float x) {
         balance += x;
     }
 
@@ -36,5 +49,13 @@ abstract class AbstractAccount implements Account {
         } else {
             throw new NotEnoughFundsException();
         }
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public float getOverdraft() {
+        return overdraft;
     }
 }

@@ -31,7 +31,6 @@ public class Client implements Report, Comparable<Client>, Serializable {
 
     public Client(String name) {
         this.name = name;
-        this.accounts = new HashSet<>(2);
     }
 
     public Client(String name, Gender gender) {
@@ -39,6 +38,46 @@ public class Client implements Report, Comparable<Client>, Serializable {
         this.gender = gender;
         this.accounts = new HashSet<>(2);
         this.activeAccount = null;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public float getInitialOverdraft() {
+        return initialOverdraft;
+    }
+
+    public void setInitialOverdraft(float initialOverdraft) {
+        this.initialOverdraft = initialOverdraft;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void parseFeed(Map<String, String> propertiesMap) {
@@ -88,8 +127,16 @@ public class Client implements Report, Comparable<Client>, Serializable {
         return gender;
     }
 
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public Set<Account> getAccounts() {
         return Collections.unmodifiableSet(accounts);
+    }
+
+    public void setAccounts(Set<Account> accounts) {
+        this.accounts = accounts;
     }
 
     public void printReport() {
@@ -105,8 +152,16 @@ public class Client implements Report, Comparable<Client>, Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getCity() {
         return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     @Override

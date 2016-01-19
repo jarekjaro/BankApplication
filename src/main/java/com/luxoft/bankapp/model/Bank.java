@@ -10,6 +10,7 @@ public class Bank implements Report {
     private Set<ClientRegistrationListener> listeners;
     private Map<String, Client> clientMap;
     private int id;
+    private String bankName;
 
     public Bank() {
         clients = new HashSet<>();
@@ -21,6 +22,32 @@ public class Bank implements Report {
 
     private void registerEvent(ClientRegistrationListener actionListener) {
         listeners.add(actionListener);
+    }
+
+    public Bank(String name) {
+        clients = new HashSet<>();
+        listeners = new HashSet<>();
+        clientMap = new TreeMap<>();
+        registerEvent(new PrintClientListener());
+        registerEvent(new EmailNotificationListener());
+        bankName = name;
+        id = 0;
+    }
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
