@@ -10,8 +10,8 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class BankCommander {
-    public static Bank currentBank = new Bank();
-    public static Client currentClient;
+    public static Bank activeBank = new Bank();
+    public static Client activeClient;
     public static Client currentReceivingClient;
     public static BankServiceImpl bs = new BankServiceImpl();
     public static Map<String, Command> commands = new TreeMap<>();
@@ -21,7 +21,8 @@ public class BankCommander {
     }
 
     public static void main(String args[]) {
-        BankApplication.initialize(currentBank);
+
+        BankApplication.initialize(activeBank);
         registerCommand("FindClientCommand", new FindClientCommand());
         registerCommand("AddClientCommand", new AddClientCommand());
         registerCommand("GetAccountsCommand", new GetAccountsCommand());
@@ -37,10 +38,14 @@ public class BankCommander {
                 System.out.println("Exit");
             }
         });
+        registerCommand("DBSelectBankCommand", new DBSelectBankCommand());
+        registerCommand("DBSelectClientCommand", new DBSelectClientCommand());
+        registerCommand("DBRemoveClientCommand", new DBRemoveClientCommand());
+
         Scanner sc = new Scanner(System.in);
         boolean flagOfClient = false;
         while (true) {
-            if (flagOfClient) System.out.println(currentClient.getClientSalutation() + currentClient.getName());
+            if (flagOfClient) System.out.println(activeClient.getClientSalutation() + activeClient.getName());
             int i = 1;
             for (Iterator iterator = commands.entrySet().iterator(); iterator.hasNext(); ) {
                 Map.Entry<String, Command> next = (Map.Entry<String, Command>) iterator.next();

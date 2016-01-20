@@ -27,8 +27,8 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
     public Client findClientByName(Bank bankToSearch, String nameOfTheClientToSearch)
             throws DAOException {
         Client foundClient = new Client(nameOfTheClientToSearch);
+        openConnection();
         try {
-            openConnection();
             preparedStatement = conn.prepareStatement(GET_CLIENT_BY_NAME_AND_BANK_ID);
             prepareFindClientStatement(bankToSearch, nameOfTheClientToSearch);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -40,7 +40,7 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
             } else {
                 throw new ClientDoesNotExistException();
             }
-        } catch (DAOException | SQLException | ClientDoesNotExistException e) {
+        } catch (SQLException | ClientDoesNotExistException e) {
             e.printStackTrace();
         } finally {
             closeConnection();
@@ -56,8 +56,8 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
     @Override
     public List<Client> getAllClients(Bank bank) throws DAOException {
         List<Client> clientsOfTheGivenBank = new ArrayList<>();
+        openConnection();
         try {
-            openConnection();
             preparedStatement = conn.prepareStatement(GET_BANK_CLIENTS);
             prepareBankStatement(bank);
             ResultSet allClientsOfTheGivenBankResultSet = preparedStatement.executeQuery();
@@ -81,8 +81,8 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
 
     @Override
     public void save(Client clientToSave) throws DAOException {
+        openConnection();
         try {
-            openConnection();
             preparedStatement = conn.prepareStatement(UPDATE_CLIENT);
             prepareSaveClientStatement(clientToSave);
             int affectedRows = preparedStatement.executeUpdate();

@@ -63,7 +63,7 @@ public class AddClientCommand implements Command {
                 overdraftFlag = false;
             } else System.out.println("The overdraft should be a number!");
         } while (overdraftFlag);
-        BankCommander.currentBank.addNewClient(name, surname, phone, email, initialOverdraft);
+        BankCommander.activeBank.addNewClient(name, surname, phone, email, initialOverdraft);
     }
 
     @Override

@@ -19,16 +19,16 @@ public class TransferCommand implements Command {
         float toTransfer;
         System.out.println("From which: (C)hecking account or (S)aving account would you like to transfer?");
         if (sc.nextLine().equals("C")) {
-            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            Set<Account> accountSet = BankCommander.activeClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if (next instanceof CheckingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof CheckingAccount) BankCommander.activeClient.setActiveAccount(next);
             }
         } else {
-            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            Set<Account> accountSet = BankCommander.activeClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if (next instanceof SavingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof SavingAccount) BankCommander.activeClient.setActiveAccount(next);
             }
         }
         boolean amountToWithdrawFlag = true;
@@ -38,7 +38,7 @@ public class TransferCommand implements Command {
             sc.nextLine();
             if (toTransfer >= 0) {
                 try {
-                    BankCommander.currentClient.getActiveAccount().withdraw(toTransfer);
+                    BankCommander.activeClient.getActiveAccount().withdraw(toTransfer);
                     amountToWithdrawFlag = false;
                 } catch (NotEnoughFundsException e) {
                     System.out.println(e.getMessage());
@@ -64,24 +64,23 @@ public class TransferCommand implements Command {
         BankCommander.currentReceivingClient = foundClient;
         System.out.println("To (C)hecking account or to (S)aving account?");
         if (sc.nextLine().equals("C")) {
-            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            Set<Account> accountSet = BankCommander.activeClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if (next instanceof CheckingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof CheckingAccount) BankCommander.activeClient.setActiveAccount(next);
             }
         } else {
-            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            Set<Account> accountSet = BankCommander.activeClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if (next instanceof SavingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof SavingAccount) BankCommander.activeClient.setActiveAccount(next);
             }
         }
-
         BankCommander.currentReceivingClient.getActiveAccount().deposit(toTransfer);
     }
 
     public Client findClient(String clientName) throws ClientDoesNotExistException {
-        return BankCommander.currentBank.getClientByName(clientName);
+        return BankCommander.activeBank.getClientByName(clientName);
     }
 
     @Override

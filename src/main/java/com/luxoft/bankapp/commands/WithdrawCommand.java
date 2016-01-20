@@ -16,16 +16,16 @@ public class WithdrawCommand implements Command {
         Scanner sc = new Scanner(System.in);
         System.out.println("From which: (C)hecking account or (S)aving account would you like to withdraw?");
         if (sc.nextLine().equals("C")) {
-            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            Set<Account> accountSet = BankCommander.activeClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if (next instanceof CheckingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof CheckingAccount) BankCommander.activeClient.setActiveAccount(next);
             }
         } else {
-            Set<Account> accountSet = BankCommander.currentClient.getAccounts();
+            Set<Account> accountSet = BankCommander.activeClient.getAccounts();
             for (Iterator<Account> iterator = accountSet.iterator(); iterator.hasNext(); ) {
                 Account next = iterator.next();
-                if (next instanceof SavingAccount) BankCommander.currentClient.setActiveAccount(next);
+                if (next instanceof SavingAccount) BankCommander.activeClient.setActiveAccount(next);
             }
         }
         boolean amountToWithdraw = true;
@@ -34,7 +34,7 @@ public class WithdrawCommand implements Command {
             float toWithdraw = sc.nextFloat();
             if (toWithdraw >= 0) {
                 try {
-                    BankCommander.currentClient.getActiveAccount().withdraw(toWithdraw);
+                    BankCommander.activeClient.getActiveAccount().withdraw(toWithdraw);
                     amountToWithdraw = false;
                 } catch (NotEnoughFundsException e) {
                     System.out.println(e.getMessage());

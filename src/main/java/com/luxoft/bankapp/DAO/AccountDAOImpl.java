@@ -34,8 +34,8 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
 
     @Override
     public void save(Account accountToSave) throws DAOException {
+        openConnection();
         try {
-            openConnection();
             prepareSaveStatement(accountToSave);
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
@@ -61,8 +61,8 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
 
     @Override
     public void add(Account accountToAdd) throws DAOException {
+        openConnection();
         try {
-            openConnection();
             if (isCheckingAccount(accountToAdd)) {
                 prepareCheckingAccountQuery(accountToAdd);
             } else {
@@ -104,8 +104,8 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
     public void removeByClientId(int clientId) throws DAOException {
         ResultSet resultSet;
         List<Integer> accountNumbers = new ArrayList<>();
+        openConnection();
         try {
-            openConnection();
             prepareAccNosQuery(clientId);
             resultSet = preparedStatement.executeQuery();
             addAccNosToList(resultSet, accountNumbers);
@@ -187,8 +187,8 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
     @Override
     public List<Account> getClientAccounts(int idClient) throws DAOException {
         List<Account> accountsList = new ArrayList<>();
+        openConnection();
         try {
-            openConnection();
             prepareAccNosQuery(idClient);
             ResultSet resultSet = preparedStatement.executeQuery();
             addAccountsToListOfAccountsInstances(accountsList, resultSet);

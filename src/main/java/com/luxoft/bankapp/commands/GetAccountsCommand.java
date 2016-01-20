@@ -5,9 +5,9 @@ import com.luxoft.bankapp.service.BankCommander;
 public class GetAccountsCommand implements Command {
     @Override
     public void execute() {
-        if (BankCommander.currentClient != null) {
-            BankCommander.currentClient.getAccounts();
-            BankCommander.currentClient.printReport();
+        if (BankCommander.activeClient != null) {
+            BankCommander.activeClient.getAccounts();
+            BankCommander.activeClient.printReport();
         } else {
             System.out.println("You need to provide a client first.");
         }
