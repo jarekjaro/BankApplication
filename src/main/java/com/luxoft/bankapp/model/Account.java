@@ -5,6 +5,19 @@ import com.luxoft.bankapp.exceptions.NotEnoughFundsException;
 import java.util.Map;
 
 public interface Account extends Report {
+
+    int getAccNo();
+
+    void setAccNo(int accNo);
+
+    int getType();
+
+    void setType(int type);
+
+    float getOverdraft();
+
+    void setOverdraft(float overdraft);
+
     void deposit(float amount);
 
     void withdraw(float amount) throws NotEnoughFundsException;
@@ -16,6 +29,8 @@ public interface Account extends Report {
     }
 
     float getBalance();
+
+    void setBalance(float amount);
 
     void parseFeed(Map<String, String> propertiesMap);
 }

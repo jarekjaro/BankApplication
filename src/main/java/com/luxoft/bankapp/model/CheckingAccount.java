@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.TreeSet;
 
 public class CheckingAccount extends AbstractAccount {
-
+    float balance;
+    private int type;
+    private int accNo;
     private float overdraft;
 
     public CheckingAccount(float balance) {
@@ -18,6 +20,14 @@ public class CheckingAccount extends AbstractAccount {
     public CheckingAccount(float balance, float overdraft) {
         super(balance);
         this.overdraft = overdraft;
+    }
+
+    public CheckingAccount(int accNo) {
+        super(accNo);
+    }
+
+    public CheckingAccount(int accNo, float balance, float overdraft, int type) {
+        super(accNo, balance, overdraft, type);
     }
 
     public void parseFeed(Map<String, String> propertiesMap) {

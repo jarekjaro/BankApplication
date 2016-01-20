@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.service;
+package com.luxoft.bankapp.DAO;
 
 import com.luxoft.bankapp.exceptions.DAOException;
 import com.luxoft.bankapp.model.Bank;

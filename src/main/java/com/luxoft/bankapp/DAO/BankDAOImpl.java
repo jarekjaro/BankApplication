@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.service;
+package com.luxoft.bankapp.DAO;
 
 import com.luxoft.bankapp.exceptions.BankNotFoundException;
 import com.luxoft.bankapp.exceptions.DAOException;
@@ -9,16 +9,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class BankDAOImpl extends BaseDAOImpl implements BankDAO {
+    private static final String REMOVE_BANK = "DELETE FROM BANK WHERE BANK.NAME=?";
+    private static final String GET_BANK_BY_NAME = "SELECT ID, NAME FROM BANK WHERE NAME=?";
+    private static final String UPDATE_BANK_NAME = "UPDATE BANK SET NAME=?";
+    private PreparedStatement preparedStatement;
 
     @Override
     public Bank getBankByName(String name) throws DAOException {
         Bank bank = new Bank(name);
-        String sqlQuery = "SELECT ID, NAME FROM BANK WHERE NAME=?";
-        PreparedStatement preparedStatement;
+        openConnection();
         try {
-            openConnection();
-            preparedStatement = conn.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, name);
+            preparedStatement = conn.prepareStatement(GET_BANK_BY_NAME);
+            prepareBankQuery(name);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("ID");
@@ -34,13 +36,16 @@ public class BankDAOImpl extends BaseDAOImpl implements BankDAO {
         return bank;
     }
 
+    private void prepareBankQuery(String name) throws SQLException {
+        preparedStatement.setString(1, name);
+    }
+
     @Override
     public void save(Bank bank) throws DAOException {
         openConnection();
-        String sqlUpdateQuery = "UPDATE BANK SET NAME=?";
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlUpdateQuery);
-            preparedStatement.setString(1, bank.getBankName());
+            preparedStatement = conn.prepareStatement(UPDATE_BANK_NAME);
+            prepareBankQuery(bank.getBankName());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("Bank " + bank.getBankName() + " was updated, "
@@ -58,10 +63,9 @@ public class BankDAOImpl extends BaseDAOImpl implements BankDAO {
     @Override
     public void remove(Bank bank) throws DAOException {
         openConnection();
-        String sqlRemoveBankQuery = "DELETE FROM BANK WHERE BANK.NAME=?";
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlRemoveBankQuery);
-            preparedStatement.setString(1, bank.getBankName());
+            preparedStatement = conn.prepareStatement(REMOVE_BANK);
+            prepareBankQuery(bank.getBankName());
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("Bank " + bank.getBankName() + " was deleted.");

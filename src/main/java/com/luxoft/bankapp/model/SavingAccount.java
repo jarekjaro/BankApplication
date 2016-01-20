@@ -12,6 +12,17 @@ public class SavingAccount extends AbstractAccount {
         super(balance);
     }
 
+    public SavingAccount(int accNo, float balance, float overdraft, int type) {
+        super(accNo, balance, overdraft, type);
+    }
+    public SavingAccount(int accNo, float balance, int type) {
+        super(accNo, balance, type);
+    }
+
+    public SavingAccount(int accNo) {
+        super(accNo);
+    }
+
     public void parseFeed(Map<String, String> propertiesMap) {
         String accountType = null, balance = null, overdraft = null;
         Set<Map.Entry<String, String>> parsedMap = new TreeSet<>();

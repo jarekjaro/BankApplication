@@ -1,4 +1,4 @@
-package com.luxoft.bankapp.service;
+package com.luxoft.bankapp.DAO;
 
 import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.exceptions.DAOException;
@@ -13,19 +13,24 @@ import java.util.List;
 
 public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
 
+    private static final String DELETE_CLIENT_BY_ID = "DELETE FROM CLIENT WHERE ID=?";
+    private static final String UPDATE_CLIENT = "UPDATE CLIENT SET NAME=?, SURNAME=? WHERE ID=?";
+    private static final String GET_CLIENT_BY_NAME_AND_BANK_ID = "SELECT c.ID,  c.NAME,  c.SURNAME FROM CLIENT c " +
+            "INNER JOIN BANKS_CLIENTS bc ON c.ID = bc.CLIENT_ID " +
+            "WHERE c.NAME =? AND bc.BANK_ID=?;";
+    private static final String GET_BANK_CLIENTS = "SELECT c.ID, c.NAME, c.SURNAME FROM CLIENT c " +
+            "INNER JOIN BANKS_CLIENTS bc ON c.ID=bc.CLIENT_ID " +
+            "WHERE bc.BANK_ID=?";
+    private PreparedStatement preparedStatement;
+
     @Override
     public Client findClientByName(Bank bankToSearch, String nameOfTheClientToSearch)
             throws DAOException {
         Client foundClient = new Client(nameOfTheClientToSearch);
-        String sqlQuery = "SELECT c.ID,  c.NAME,  c.SURNAME FROM CLIENT c " +
-                "INNER JOIN BANKS_CLIENTS bc ON c.ID = bc.CLIENT_ID " +
-                "WHERE c.NAME =? AND bc.BANK_ID=?;";
-        PreparedStatement preparedStatement;
         try {
             openConnection();
-            preparedStatement = conn.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, nameOfTheClientToSearch);
-            preparedStatement.setInt(2, bankToSearch.getId());
+            preparedStatement = conn.prepareStatement(GET_CLIENT_BY_NAME_AND_BANK_ID);
+            prepareFindClientStatement(bankToSearch, nameOfTheClientToSearch);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 int id = resultSet.getInt("ID");
@@ -43,17 +48,18 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
         return foundClient;
     }
 
+    private void prepareFindClientStatement(Bank bankToSearch, String nameOfTheClientToSearch) throws SQLException {
+        preparedStatement.setString(1, nameOfTheClientToSearch);
+        preparedStatement.setInt(2, bankToSearch.getId());
+    }
+
     @Override
     public List<Client> getAllClients(Bank bank) throws DAOException {
         List<Client> clientsOfTheGivenBank = new ArrayList<>();
-        String sqlQuery = "SELECT c.ID, c.NAME, c.SURNAME FROM CLIENT c " +
-                "INNER JOIN BANKS_CLIENTS bc ON c.ID=bc.CLIENT_ID " +
-                "WHERE bc.BANK_ID=?";
-        PreparedStatement preparedStatement;
         try {
             openConnection();
-            preparedStatement = conn.prepareStatement(sqlQuery);
-            preparedStatement.setInt(1, bank.getId());
+            preparedStatement = conn.prepareStatement(GET_BANK_CLIENTS);
+            prepareBankStatement(bank);
             ResultSet allClientsOfTheGivenBankResultSet = preparedStatement.executeQuery();
             while (allClientsOfTheGivenBankResultSet.next()) {
                 Client clientToAdd = new Client(allClientsOfTheGivenBankResultSet.getString("NAME"));
@@ -69,16 +75,16 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
         return clientsOfTheGivenBank;
     }
 
+    private void prepareBankStatement(Bank bank) throws SQLException {
+        preparedStatement.setInt(1, bank.getId());
+    }
+
     @Override
     public void save(Client clientToSave) throws DAOException {
-        String sqlUpdateQuery = "UPDATE CLIENT SET NAME=?, SURNAME=? WHERE ID=?";
-        PreparedStatement preparedStatement;
         try {
             openConnection();
-            preparedStatement = conn.prepareStatement(sqlUpdateQuery);
-            preparedStatement.setString(1, clientToSave.getName());
-            preparedStatement.setString(2, clientToSave.getSurname());
-            preparedStatement.setInt(3, clientToSave.getId());
+            preparedStatement = conn.prepareStatement(UPDATE_CLIENT);
+            prepareSaveClientStatement(clientToSave);
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("Client " + clientToSave.getName() + " " +
@@ -90,16 +96,23 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            closeConnection();
         }
+    }
+
+    private void prepareSaveClientStatement(Client clientToSave) throws SQLException {
+        preparedStatement.setString(1, clientToSave.getName());
+        preparedStatement.setString(2, clientToSave.getSurname());
+        preparedStatement.setInt(3, clientToSave.getId());
     }
 
     @Override
     public void remove(Client clientToRemove) throws DAOException {
         openConnection();
-        String sqlRemoveClientQuery = "DELETE FROM CLIENT WHERE ID=?";
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement(sqlRemoveClientQuery);
-            preparedStatement.setInt(1, clientToRemove.getId());
+            preparedStatement = conn.prepareStatement(DELETE_CLIENT_BY_ID);
+            prepareRemoveClientStatement(clientToRemove);
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows > 0) {
                 System.out.println("Client " + clientToRemove.getName() + " was deleted.");
@@ -111,5 +124,9 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
         } finally {
             closeConnection();
         }
+    }
+
+    private void prepareRemoveClientStatement(Client clientToRemove) throws SQLException {
+        preparedStatement.setInt(1, clientToRemove.getId());
     }
 }

@@ -771,3 +771,86 @@ CALL SYSPROC.DB2LK_GENERATE_DDL('-e -td ; -t ' || ?, ?) [90022-190]
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 	at java.lang.Thread.run(Thread.java:745)
+2016-01-20 10:20:31 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO ACCOUNT ('TYPE'[*], 'BALANCE', 'OVERDRAFT') VALUES(1,2000,100)"; expected "identifier"; SQL statement:
+INSERT INTO ACCOUNT ('TYPE', 'BALANCE', 'OVERDRAFT') VALUES(1,2000,100) [42001-190]
+2016-01-20 10:22:40 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO ACCOUNT ('TYPE'[*], 'BALANCE', 'OVERDRAFT') VALUES(1,2000,100)"; expected "identifier"; SQL statement:
+INSERT INTO ACCOUNT ('TYPE', 'BALANCE', 'OVERDRAFT') VALUES(1,2000,100) [42001-190]
+2016-01-20 10:23:29 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO ACCOUNT ('TYPE'[*], 'BALANCE', 'OVERDRAFT') VALUES (1, 2000, 100)"; expected "identifier"; SQL statement:
+INSERT INTO ACCOUNT ('TYPE', 'BALANCE', 'OVERDRAFT') VALUES (1, 2000, 100) [42001-190]
+2016-01-20 10:23:51 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO ACCOUNT ('BALANCE'[*], 'OVERDRAFT','TYPE') VALUES (1, 2000, 100)"; expected "identifier"; SQL statement:
+INSERT INTO ACCOUNT ('BALANCE', 'OVERDRAFT','TYPE') VALUES (1, 2000, 100) [42001-190]
+2016-01-20 10:24:13 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "INSERT INTO ACCOUNT ('BALANCE'[*], 'OVERDRAFT','TYPE') VALUES (30000, 2000, 1)"; expected "identifier"; SQL statement:
+INSERT INTO ACCOUNT ('BALANCE', 'OVERDRAFT','TYPE') VALUES (30000, 2000, 1) [42001-190]
+2016-01-20 10:45:18 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Column "ACCOUNT_OWNERS.ACCOUNT_ID" not found; SQL statement:
+DELETE FROM ACCOUNT WHERE ACCOUNT.ACC_NO=ACCOUNT_OWNERS.ACCOUNT_ID AND ACCOUNT_OWNERS.OWNER_ID=7 [42122-190]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.expression.Comparison.optimize(Comparison.java:180)
+	at org.h2.expression.ConditionAndOr.optimize(ConditionAndOr.java:130)
+	at org.h2.command.dml.Delete.prepare(Delete.java:130)
+	at org.h2.command.Parser.prepareCommand(Parser.java:246)
+	at org.h2.engine.Session.prepareLocal(Session.java:460)
+	at org.h2.engine.Session.prepareCommand(Session.java:402)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1188)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:170)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at com.intellij.database.remote.jdbc.impl.RemoteStatementImpl.execute(RemoteStatementImpl.java:70)
+	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:323)
+	at sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:568)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:826)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$95(TCPTransport.java:683)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:682)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+2016-01-20 11:23:06 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "DELETE FROM([*]SELECT * FROM ACCOUNT_OWNERS WHERE OWNER_ID=7)"; expected "identifier"; SQL statement:
+DELETE FROM(SELECT * FROM ACCOUNT_OWNERS WHERE OWNER_ID=7) [42001-190]
+2016-01-20 11:25:22 jdbc[4]: exception
+org.h2.jdbc.JdbcSQLException: Column "ID" not found; SQL statement:
+DELETE FROM ACCOUNT WHERE ID IN(SELECT ID FROM ACCOUNT_OWNERS WHERE OWNER_ID=7) [42122-190]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.expression.ConditionInSelect.optimize(ConditionInSelect.java:116)
+	at org.h2.command.dml.Delete.prepare(Delete.java:130)
+	at org.h2.command.Parser.prepareCommand(Parser.java:246)
+	at org.h2.engine.Session.prepareLocal(Session.java:460)
+	at org.h2.engine.Session.prepareCommand(Session.java:402)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1188)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:170)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:158)
+	at com.intellij.database.remote.jdbc.impl.RemoteStatementImpl.execute(RemoteStatementImpl.java:70)
+	at sun.reflect.GeneratedMethodAccessor22.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:497)
+	at sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:323)
+	at sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:568)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:826)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$95(TCPTransport.java:683)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:682)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
