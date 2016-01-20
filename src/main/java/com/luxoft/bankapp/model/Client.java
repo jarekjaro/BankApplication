@@ -80,6 +80,10 @@ public class Client implements Report, Comparable<Client>, Serializable {
         this.id = id;
     }
 
+    public void addAccount(Account accountToAdd) {
+        accounts.add(accountToAdd);
+    }
+
     public void parseFeed(Map<String, String> propertiesMap) {
         String accountType = null, name = null;
         Gender gender = null;

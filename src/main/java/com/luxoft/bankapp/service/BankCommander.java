@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.TreeMap;
 
 public class BankCommander {
-    public static Bank activeBank = new Bank();
+    public static Bank activeBank;
     public static Client activeClient;
     public static Client currentReceivingClient;
     public static BankServiceImpl bs = new BankServiceImpl();
@@ -22,7 +22,6 @@ public class BankCommander {
 
     public static void main(String args[]) {
 
-        BankApplication.initialize(activeBank);
         registerCommand("FindClientCommand", new FindClientCommand());
         registerCommand("AddClientCommand", new AddClientCommand());
         registerCommand("GetAccountsCommand", new GetAccountsCommand());
