@@ -9,11 +9,11 @@ import java.io.*;
 public class BankServiceImpl implements BankService {
 
     public void addClient(Bank bank, Client client) {
-        // bank.getClients().add(client);
+        // bank.getClientsMap().add(client);
     }
 
     public void removeClient(Bank bank, Client client) {
-        //bank.getClients().remove(client);
+        //bank.getClientsMap().remove(client);
     }
 
     public void addAccount(Client client, Account account) {

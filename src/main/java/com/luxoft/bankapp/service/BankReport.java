@@ -9,26 +9,26 @@ import java.util.*;
 
 public class BankReport {
     public void getNumberOfClients(Bank bank) {
-        System.out.println("The bank has: " + bank.getClients().size() + " clients.");
+        System.out.println("The bank has: " + bank.getClientsMap().size() + " clients.");
     }
 
     public void getAccountsNumber(Bank bank) {
         int accountsNo = 0;
-        for (Client client : bank.getClients()) {
+        for (Client client : bank.getClientsMap()) {
             accountsNo += client.getAccounts().size();
         }
         System.out.println("The bank has: " + accountsNo + " accounts.");
     }
 
     public void getClientsSorted(Bank bank) {
-        Set<Client> sortedSet = new TreeSet<>(bank.getClients());
+        Set<Client> sortedSet = new TreeSet<>(bank.getClientsMap());
         for (Client client : sortedSet) {
             System.out.println(client);
         }
     }
 
     public void getBankCreditSum(Bank bank) {
-        Set<Client> tempSet = bank.getClients();
+        Set<Client> tempSet = bank.getClientsMap();
         float creditSum = 0;
         for (Iterator<Client> iterator = tempSet.iterator(); iterator.hasNext(); ) {
             Client next = iterator.next();
@@ -55,7 +55,7 @@ public class BankReport {
         });
 
         Set<String> city = new TreeSet<>();
-        Set<Client> bankClients = bank.getClients();
+        Set<Client> bankClients = bank.getClientsMap();
         for (Iterator iterator = bankClients.iterator(); iterator.hasNext(); ) {
             Client next = (Client) iterator.next();
             city.add(next.getCity());

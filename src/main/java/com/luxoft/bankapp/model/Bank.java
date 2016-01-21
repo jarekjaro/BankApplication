@@ -6,14 +6,14 @@ import com.luxoft.bankapp.exceptions.ClientExistsException;
 import java.util.*;
 
 public class Bank implements Report {
-    private Set<Client> clients;
+    private Set<Client> clientsMap;
     private Set<ClientRegistrationListener> listeners;
     private Map<String, Client> clientMap;
     private int id;
     private String bankName;
 
     public Bank() {
-        clients = new HashSet<>();
+        clientsMap = new HashSet<>();
         listeners = new HashSet<>();
         clientMap = new TreeMap<>();
         registerEvent(new PrintClientListener());
@@ -25,7 +25,7 @@ public class Bank implements Report {
     }
 
     public Bank(String name) {
-        clients = new HashSet<>();
+        clientsMap = new HashSet<>();
         listeners = new HashSet<>();
         clientMap = new TreeMap<>();
         registerEvent(new PrintClientListener());
@@ -52,7 +52,7 @@ public class Bank implements Report {
 
     @Override
     public void printReport() {
-        clients.forEach(Client::printReport);
+        clientsMap.forEach(Client::printReport);
         System.out.println("----------------------------------------");
     }
 
@@ -63,10 +63,10 @@ public class Bank implements Report {
 
     public void addClient(Client client) {
         try {
-            if (this.getClients().contains(client)) {
+            if (this.getClientsMap().contains(client)) {
                 throw new ClientExistsException(client);
             } else {
-                clients.add(client);
+                clientsMap.add(client);
             }
         } catch (ClientExistsException e) {
             e.getMessage();
@@ -75,8 +75,8 @@ public class Bank implements Report {
         }
     }
 
-    public Set<Client> getClients() {
-        return Collections.unmodifiableSet(clients);
+    public Set<Client> getClientsMap() {
+        return Collections.unmodifiableSet(clientsMap);
     }
 
     public Set<ClientRegistrationListener> getListeners() {
@@ -84,7 +84,7 @@ public class Bank implements Report {
     }
 
     public boolean removeClient(Client client) {
-        return clients.remove(client);
+        return clientsMap.remove(client);
     }
 
     public void parseFeed(Map<String, String> propertiesMap) {
@@ -123,10 +123,12 @@ public class Bank implements Report {
 
     public Client getClientByName(String name) throws ClientDoesNotExistException {
         boolean clientFoundFlag = false;
-        for (Client client : clients) {
-            if (client.getName().equals(name)) {
+        Set<String> clientNamesFromMap = clientMap.keySet();
+        for (Iterator<String> iterator = clientNamesFromMap.iterator(); iterator.hasNext(); ) {
+            String next = iterator.next();
+            if (next.equals(name)) {
                 clientFoundFlag = true;
-                return client;
+                return clientMap.get(next);
             }
         }
         if (!clientFoundFlag) {

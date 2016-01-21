@@ -15,23 +15,10 @@ public class BankApplication {
         String testFilePath = "test.txt";
         try {
             bankService.loadFeed(testFilePath);
-            bank1.getClients().forEach(System.out::println);
+            bank1.getClientsMap().forEach(System.out::println);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-
-//        if (args[0].equals("report")) {
-//            bank1.printReport();
-//            System.exit(0);
-//        }
-//        bank1.printReport();
-//        modifyBank(bank1);
-//        bank1.printReport();
-//        bank1.getClients().forEach(System.out::println);
-//        bank1.getClients().forEach(client ->{
-//            client.getAccounts().forEach(account -> account.decimalValue());
-//        });
     }
 
     public static void initialize(Bank bank1) {
@@ -54,20 +41,14 @@ public class BankApplication {
             accountToAdd=new SavingAccount(rand.nextFloat() * 100000);
             bank1.addAccount(client, accountToAdd);
         }
-
         for (Client client : clientInit) {
                 bank1.addClient(client);
         }
     }
 
     private static void modifyBank(Bank bankToModify) {
-        Set<Client> listOfClients = bankToModify.getClients();
+        Set<Client> listOfClients = bankToModify.getClientsMap();
         Set<Account> listToModify = new TreeSet<>();
-//        listOfClients.forEach(client -> {
-//            Set<Account> listOfClientAccounts = client.getAccounts();
-//            listOfClientAccounts.forEach(listToModify::add);
-//        });
-
         Random rand = new Random();
         listToModify.forEach(account -> account.deposit(rand.nextFloat() * 10000));
         listToModify.forEach(account -> {

@@ -1,9 +1,7 @@
 package com.luxoft.bankapp.DBCommands;
 
-import com.luxoft.bankapp.DAO.ClientDAOImpl;
 import com.luxoft.bankapp.commands.Command;
-import com.luxoft.bankapp.exceptions.DAOException;
-import com.luxoft.bankapp.model.Client;
+import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.service.DBBankCommander;
 
 import java.util.Scanner;
@@ -14,13 +12,11 @@ public class DBSelectClientCommand implements Command {
     @Override
     public void execute() {
         if (isBankSelected()) {
-            ClientDAOImpl clientDAO = new ClientDAOImpl();
             printSelectClientMenu();
             String nameOfTheClientToSearch = readClientNameFromUser();
             try {
-                Client clientFromDB = clientDAO.findClientByName(DBBankCommander.activeBank, nameOfTheClientToSearch);
-                DBBankCommander.activeClient = clientFromDB;
-            } catch (DAOException e) {
+                DBBankCommander.activeClient = DBBankCommander.activeBank.getClientByName(nameOfTheClientToSearch);
+            } catch (ClientDoesNotExistException e) {
                 e.printStackTrace();
             }
         } else {
