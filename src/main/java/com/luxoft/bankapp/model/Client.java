@@ -30,7 +30,17 @@ public class Client implements Report, Comparable<Client>, Serializable {
     }
 
     public Client(String name) {
+        this.id = 0;
         this.name = name;
+        this.surname = "";
+        accounts = new HashSet<>();
+    }
+
+    public Client(String name, String surname) {
+        this.id = 0;
+        this.name = name;
+        this.surname = surname;
+        accounts = new HashSet<>();
     }
 
     public Client(String name, Gender gender) {
@@ -120,11 +130,19 @@ public class Client implements Report, Comparable<Client>, Serializable {
     }
 
     public Account getActiveAccount() {
-        return activeAccount;
+        return this.activeAccount;
     }
 
-    public void setActiveAccount(Account activeAccount) {
-        this.activeAccount = activeAccount;
+    public void setActiveAccount(Account account) {
+        this.activeAccount = account;
+    }
+
+    public void setActiveAccount() { //exemplary first account
+        for (Iterator<Account> iterator = accounts.iterator(); iterator.hasNext(); ) {
+            Account next = iterator.next();
+            this.activeAccount = next;
+            break;
+        }
     }
 
     public Gender getGender() {

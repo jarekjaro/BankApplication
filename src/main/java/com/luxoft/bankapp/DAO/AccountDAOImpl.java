@@ -19,8 +19,8 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
             "INSERT INTO ACCOUNT (BALANCE, OVERDRAFT, TYPE) VALUES(?,?,?)";
     private static final String INSERT_NEW_SAVING_ACCOUNT =
             "INSERT INTO ACCOUNT (BALANCE, TYPE) VALUES(?,?)";
-    private static final String GET_ACC_NOS_OF_CLIENT =
-            "SELECT ACC_NO FROM ACCOUNT " +
+    private static final String GET_ACCS_OF_CLIENT =
+            "SELECT ACC_NO, BALANCE, OVERDRAFT, TYPE FROM ACCOUNT " +
                     "JOIN ACCOUNT_OWNERS ON ACCOUNT.ACC_NO = ACCOUNT_OWNERS.ACCOUNT_ID " +
                     "WHERE OWNER_ID = ?;";
     private static final String DELETE_REFERENCES_TO_ALL_ACCOUNTS_OF_CLIENT =
@@ -123,7 +123,7 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
     }
 
     private void prepareAccNosQuery(int clientId) throws SQLException {
-        preparedStatement = conn.prepareStatement(GET_ACC_NOS_OF_CLIENT);
+        preparedStatement = conn.prepareStatement(GET_ACCS_OF_CLIENT);
         preparedStatement.setInt(1, clientId);
     }
 
@@ -191,31 +191,26 @@ public class AccountDAOImpl extends BaseDAOImpl implements AccountDAO {
         try {
             prepareAccNosQuery(idClient);
             ResultSet resultSet = preparedStatement.executeQuery();
-            addAccountsToListOfAccountsInstances(accountsList, resultSet);
+            while (resultSet.next()) {
+                int acc_no = resultSet.getInt("ACC_NO");
+                int type = resultSet.getInt("TYPE");
+                float balance = resultSet.getFloat("BALANCE");
+                Account accountToAdd;
+                if (type == 1) {
+                    float overdraft = resultSet.getFloat("OVERDRAFT");
+                    accountToAdd =
+                            new CheckingAccount(acc_no, balance, overdraft, type);
+                } else {
+                    accountToAdd =
+                            new SavingAccount(acc_no, balance, type);
+                }
+                accountsList.add(accountToAdd);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             closeConnection();
         }
         return accountsList;
-    }
-
-    private void addAccountsToListOfAccountsInstances(List<Account> accountsList, ResultSet resultSet)
-            throws SQLException {
-        while (resultSet.next()) {
-            int acc_no = resultSet.getInt("ACC_NO");
-            int type = resultSet.getInt("TYPE");
-            float balance = resultSet.getFloat("BALANCE");
-            Account accountToAdd;
-            if (type == 1) {
-                float overdraft = resultSet.getFloat("OVERDRAFT");
-                accountToAdd =
-                        new CheckingAccount(acc_no, balance, overdraft, type);
-            } else {
-                accountToAdd =
-                        new SavingAccount(acc_no, balance, type);
-            }
-            accountsList.add(accountToAdd);
-        }
     }
 }

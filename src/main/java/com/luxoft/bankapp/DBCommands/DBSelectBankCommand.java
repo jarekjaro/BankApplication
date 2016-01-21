@@ -1,19 +1,19 @@
-package com.luxoft.bankapp.commands;
+package com.luxoft.bankapp.DBCommands;
 
 import com.luxoft.bankapp.DAO.AccountDAOImpl;
 import com.luxoft.bankapp.DAO.BankDAOImpl;
 import com.luxoft.bankapp.DAO.ClientDAOImpl;
+import com.luxoft.bankapp.commands.Command;
 import com.luxoft.bankapp.exceptions.DAOException;
 import com.luxoft.bankapp.model.Account;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
-import com.luxoft.bankapp.service.BankCommander;
+import com.luxoft.bankapp.service.DBBankCommander;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class DBSelectBankCommand implements Command{
+public class DBSelectBankCommand implements Command {
     Scanner scanner = new Scanner(System.in);
     Bank bankFromDB;
 
@@ -25,7 +25,7 @@ public class DBSelectBankCommand implements Command{
         nameOfTheBankToSelectFromDB = readTheBankNameFromClient();
         try {
             bankFromDB = bankDAO.getBankByName(nameOfTheBankToSelectFromDB);
-            BankCommander.activeBank = bankFromDB;
+            DBBankCommander.activeBank = bankFromDB;
             loadAllBankClientsData();
         } catch (DAOException e) {
             e.printStackTrace();
@@ -37,9 +37,9 @@ public class DBSelectBankCommand implements Command{
         List<Client> listOfClientsReturnedFromDB;
         try {
             listOfClientsReturnedFromDB =
-                    clientDAO.getAllClients(BankCommander.activeBank);
+                    clientDAO.getAllClients(DBBankCommander.activeBank);
             listOfClientsReturnedFromDB.forEach(client -> loadAllAccounts(client));
-            listOfClientsReturnedFromDB.forEach(client -> BankCommander.activeBank.addClientToMap(client));
+            listOfClientsReturnedFromDB.forEach(client -> DBBankCommander.activeBank.addClientToMap(client));
         } catch (DAOException e) {
             e.printStackTrace();
         }
@@ -51,6 +51,7 @@ public class DBSelectBankCommand implements Command{
         try {
             listOfAccountsReturnedFromDB = accountDAO.getClientAccounts(client.getId());
             listOfAccountsReturnedFromDB.forEach(account -> client.addAccount(account));
+            client.setActiveAccount(); // Exemplary Active Account Setting
         } catch (DAOException e) {
             e.printStackTrace();
         }

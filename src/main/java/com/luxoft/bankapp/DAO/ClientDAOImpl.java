@@ -21,6 +21,10 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
     private static final String GET_BANK_CLIENTS = "SELECT c.ID, c.NAME, c.SURNAME FROM CLIENT c " +
             "INNER JOIN BANKS_CLIENTS bc ON c.ID=bc.CLIENT_ID " +
             "WHERE bc.BANK_ID=?";
+    private static final String DELETE_BANK_CLIENTS_BY_CLIENT_ID = "DELETE FROM BANKS_CLIENTS WHERE CLIENT_ID=?";
+    private static final String DELETE_ADDRESS_BY_CLIENT_ID = "DELETE FROM ADDRESS where CLIENT_ID=?";
+    private static final String DELETE_ACCOUNT_OWNERS_BY_CLIENT_ID = "DELETE  FROM ACCOUNT_OWNERS WHERE OWNER_ID=?";
+    private static final String ADD_CLIENT = "INSERT INTO CLIENT (NAME, SURNAME) VALUES(?,?)";
     private PreparedStatement preparedStatement;
 
     @Override
@@ -37,6 +41,8 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
                 foundClient.setId(id);
                 String surname = resultSet.getString("SURNAME");
                 foundClient.setSurname(surname);
+                String name = resultSet.getString("NAME");
+                foundClient.setName(name);
             } else {
                 throw new ClientDoesNotExistException();
             }
@@ -78,6 +84,29 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
     private void prepareBankStatement(Bank bank) throws SQLException {
         preparedStatement.setInt(1, bank.getId());
     }
+    public void addClient(Client clientToAdd) throws DAOException {
+        openConnection();
+        try{
+            preparedStatement = conn.prepareStatement(ADD_CLIENT);
+            prepareInsertClientStatement(clientToAdd);
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Client " + clientToAdd.getName() + " " +
+                        clientToAdd.getSurname() +
+                        " " + " added, " + affectedRows + " rows affected");
+            } else{
+                System.err.println("Could not update the client " + clientToAdd.getName()
+                        + " " + clientToAdd.getSurname() + ".");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void prepareInsertClientStatement(Client client) throws SQLException {
+        preparedStatement.setString(1,client.getName());
+        preparedStatement.setString(2,client.getSurname());
+    }
 
     @Override
     public void save(Client clientToSave) throws DAOException {
@@ -111,6 +140,7 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
     public void remove(Client clientToRemove) throws DAOException {
         openConnection();
         try {
+            deleteAllClientReferences(clientToRemove);
             preparedStatement = conn.prepareStatement(DELETE_CLIENT_BY_ID);
             prepareRemoveClientStatement(clientToRemove);
             int affectedRows = preparedStatement.executeUpdate();
@@ -123,6 +153,22 @@ public class ClientDAOImpl extends BaseDAOImpl implements ClientDAO {
             e.printStackTrace();
         } finally {
             closeConnection();
+        }
+    }
+
+    private void deleteAllClientReferences(Client clientToRemove) {
+        try {
+            preparedStatement = conn.prepareStatement(DELETE_BANK_CLIENTS_BY_CLIENT_ID);
+            prepareRemoveClientStatement(clientToRemove);
+            preparedStatement.executeUpdate();
+            preparedStatement = conn.prepareStatement(DELETE_ADDRESS_BY_CLIENT_ID);
+            prepareRemoveClientStatement(clientToRemove);
+            preparedStatement.executeUpdate();
+            preparedStatement = conn.prepareStatement(DELETE_ACCOUNT_OWNERS_BY_CLIENT_ID);
+            prepareRemoveClientStatement(clientToRemove);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

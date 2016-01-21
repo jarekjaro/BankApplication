@@ -1,5 +1,8 @@
 package com.luxoft.bankapp.service;
 
+import com.luxoft.bankapp.DBCommands.DBRemoveClientCommand;
+import com.luxoft.bankapp.DBCommands.DBSelectBankCommand;
+import com.luxoft.bankapp.DBCommands.DBSelectClientCommand;
 import com.luxoft.bankapp.commands.*;
 import com.luxoft.bankapp.model.Bank;
 import com.luxoft.bankapp.model.Client;
@@ -37,9 +40,6 @@ public class BankCommander {
                 System.out.println("Exit");
             }
         });
-        registerCommand("DBSelectBankCommand", new DBSelectBankCommand());
-        registerCommand("DBSelectClientCommand", new DBSelectClientCommand());
-        registerCommand("DBRemoveClientCommand", new DBRemoveClientCommand());
 
         Scanner sc = new Scanner(System.in);
         boolean flagOfClient = false;
