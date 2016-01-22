@@ -12,9 +12,9 @@ public class BaseDAOImpl {
     public Connection openConnection() throws DAOException {
         try {
             Class.forName("org.h2.Driver");
-            String linuxPath = "jdbc:h2:/home/jaro/IdeaProjects/BankApplication/BankApplicationDB";
-            String windowsPath = "jdbc:h2:C:/Users/JARO/IdeaProjects/BankApplication/BankApplicationDB";
-            conn = DriverManager.getConnection(windowsPath, "sa", "");
+            String linuxPath = "jdbc:h2:~/IdeaProjects/BankApplication/BankApplicationDB"; //paths may differ so watchout!
+            String windowsPath = "jdbc:h2:~/IdeaProjects/BankApplication/BankApplicationDB";
+            conn = DriverManager.getConnection(linuxPath, "sa", "");
             return conn;
         } catch (ClassNotFoundException | SQLException e) {
             throw new DAOException();

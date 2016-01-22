@@ -37,12 +37,12 @@ public class DBDepositCommand implements Command {
 
     private float getAmountFromUser() {
         System.out.println("How much would you like to deposit?");
-        String amountToWithdraw = scanner.nextLine();
-        while (!amountToWithdraw.matches("[0-9]*")) {
+        String amountToDeposit = scanner.nextLine();
+        while (!amountToDeposit.matches("[0-9]*")) {
             System.out.println("Only Positive Integers!");
             scanner.nextLine();
         }
-        return Float.valueOf(amountToWithdraw);
+        return Float.valueOf(amountToDeposit);
     }
 
     private boolean isActiveClientSet() {
