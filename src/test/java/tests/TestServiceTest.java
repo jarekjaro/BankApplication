@@ -20,18 +20,6 @@ public class TestServiceTest {
         client.setName("Ivan Ivanov");
         client.setCity("Kiev");
         client.addAccount(new CheckingAccount(10000, 300));
-        // Add some fields from Client
-        // Marked as @ NoDB, with different values
-        // For client and client2    Set<Account> accounts;
-//        private String name;
-//        private String surname;
-//        private Gender gender;
-//        private String phone;
-//        private String email;
-//        private Account activeAccount;
-//        private float initialOverdraft;
-//        private String city;
-//        private int id;
         client.setEmail("krzemol@ring.com");
         client.setGender(Gender.FEMALE);
         bank1.addClient(client);
@@ -42,7 +30,6 @@ public class TestServiceTest {
         client2.setName("Ivan Ivanov");
         client2.setCity("Kiev");
         client2.addAccount(new CheckingAccount(10000, 300));
-        // annotated @nonDB
         client2.setEmail("brzeczyszczykiewicz@liga.zf");
         client.setGender(Gender.MALE);
         bank2.addClient(client2);
