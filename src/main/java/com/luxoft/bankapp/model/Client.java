@@ -5,16 +5,24 @@ import java.util.*;
 
 public class Client implements Report, Comparable<Client>, Serializable {
     private static final long serialVersionUID = -6733881985047382792L;
+    @Bank.NoDB
     Set<Account> accounts;
     private String name;
     private String surname;
+    @Bank.NoDB
     private Gender gender;
     private String phone;
+    @Bank.NoDB
     private String email;
     private Account activeAccount;
     private float initialOverdraft;
     private String city;
     private int id;
+
+    public Client() {
+        accounts = new HashSet<>();
+        gender = Gender.FEMALE;
+    }
 
     public Client(float initialOverdraft) {
         this.initialOverdraft = initialOverdraft;
