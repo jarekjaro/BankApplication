@@ -19,6 +19,7 @@ public class DBWithdrawCommand implements Command {
             try {
                 accountDAO.save(DBBankCommander.activeClient.getActiveAccount());
             } catch (DAOException e) {
+                DBBankCommander.getLogger().warning("Problems with connection to DB!");
                 e.printStackTrace();
             }
         } else {

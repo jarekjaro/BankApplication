@@ -17,6 +17,7 @@ public class DBSelectClientCommand implements Command {
             try {
                 DBBankCommander.activeClient = DBBankCommander.activeBank.getClientByName(nameOfTheClientToSearch);
             } catch (ClientDoesNotExistException e) {
+                DBBankCommander.getLogger().warning("User tried to select non-existing client form DB");
                 e.printStackTrace();
             }
         } else {

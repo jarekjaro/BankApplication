@@ -28,6 +28,7 @@ public class DBSelectBankCommand implements Command {
             DBBankCommander.activeBank = bankFromDB;
             loadAllBankClientsData();
         } catch (DAOException e) {
+            DBBankCommander.getLogger().warning("Problems with connection to DB!");
             e.printStackTrace();
         }
     }

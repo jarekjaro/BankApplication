@@ -27,6 +27,7 @@ public class DBTransferCommand implements Command {
                 accountDAO.save(DBBankCommander.activeClient.getActiveAccount());
                 setActiveClient(nameOfTheSendingClient);
             } catch (DAOException | ClientDoesNotExistException e) {
+                DBBankCommander.getLogger().warning("User tried to transfer money to the non-existing client!");
                 e.printStackTrace();
             }
         } else {

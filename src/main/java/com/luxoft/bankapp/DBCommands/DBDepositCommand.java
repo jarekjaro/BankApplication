@@ -18,7 +18,9 @@ public class DBDepositCommand implements Command {
             depositToActiveAccount(depositAmount);
             try {
                 accountDAO.save(DBBankCommander.activeClient.getActiveAccount());
+                DBBankCommander.getLogger().info("Deposit event occurred.");
             } catch (DAOException e) {
+                DBBankCommander.getLogger().warning("Problems with connection to DB!");
                 e.printStackTrace();
             }
         } else {

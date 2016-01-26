@@ -39,7 +39,9 @@ public class DBRemoveClientCommand implements Command {
         if (removalConfirmed(confirmation)) {
             try {
                 clientDAO.remove(DBBankCommander.activeClient);
+                DBBankCommander.getLogger().info("Client removal occured.");
             } catch (DAOException e) {
+                DBBankCommander.getLogger().warning("Problems with connection to DB!");
                 e.printStackTrace();
             }
         } else {

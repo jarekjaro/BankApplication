@@ -52,7 +52,7 @@ public class TestSerialization {
 
     @Test
     public void testLoadFeed() throws FileNotFoundException {
-        String testFilePath = "testFile";
+        String testFilePath = "C:\\Users\\JARO\\IdeaProjects\\BankApplication\\testFile";
         BankFeedService.loadFeed(testFilePath);
     }
 }

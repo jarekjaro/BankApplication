@@ -20,7 +20,9 @@ public class DBAddClientCommand implements Command {
             Client clientToAdd = new Client(name, surname);
             try {
                 clientDAO.addClient(clientToAdd);
+                DBBankCommander.getLogger().info("Client addition made.");
             } catch (DAOException e) {
+                DBBankCommander.getLogger().warning("Problems with connection to DB!");
                 e.getMessage();
             }
         } else {
