@@ -1,20 +1,17 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.annotations.Annotations;
 import com.luxoft.bankapp.exceptions.ClientDoesNotExistException;
 import com.luxoft.bankapp.exceptions.ClientExistsException;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.*;
 
 public class Bank implements Report {
-    @NoDB
+    @Annotations.NoDB
     private Set<Client> clientsMap;
-    @NoDB
+    @Annotations.NoDB
     private Set<ClientRegistrationListener> listeners;
-    @NoDB
+    @Annotations.NoDB
     private Map<String, Client> clientMap;
     private int id;
     private String bankName;
@@ -158,11 +155,6 @@ public class Bank implements Report {
 
     public void addClientToMap(Client clientToAdd) {
         clientMap.put(clientToAdd.getName(), clientToAdd);
-    }
-
-    @Target(ElementType.FIELD)
-    @Retention(RetentionPolicy.RUNTIME)
-    public @interface NoDB {
     }
 
     class EmailNotificationListener implements ClientRegistrationListener {

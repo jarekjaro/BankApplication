@@ -1,18 +1,20 @@
 package com.luxoft.bankapp.model;
 
+import com.luxoft.bankapp.annotations.Annotations;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Client implements Report, Comparable<Client>, Serializable {
     private static final long serialVersionUID = -6733881985047382792L;
-    @Bank.NoDB
+    @Annotations.NoDB
     Set<Account> accounts;
     private String name;
     private String surname;
-    @Bank.NoDB
+    @Annotations.NoDB
     private Gender gender;
     private String phone;
-    @Bank.NoDB
+    @Annotations.NoDB
     private String email;
     private Account activeAccount;
     private float initialOverdraft;
