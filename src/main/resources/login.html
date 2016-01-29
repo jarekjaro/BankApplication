@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title id="title">Authorization</title>
-
     <noscript>
         Sorry...JavaScript is needed to go ahead.
     </noscript>
@@ -22,37 +20,45 @@
     </script>
     <style>
         h1 {
-            color:lawngreen;
+            color: #046380;
         }
-        #nameError{
-            color:crimson;
+
+        #nameError {
+            color: crimson;
             font-size: 12px;
         }
+
+        tr {
+            color: #046380;
+        }
     </style>
+    <title id="title">Authorization</title>
 </head>
-<body>
+<body bgcolor="#EFECCA">
 <form id="authorizationForm" method="POST" action="menu.html" target="_self">
     <h1 align="center">Bank Application</h1><br>
     <table align="center">
         <tr>
             <td align="right">Username:</td>
-            <td><input align="center" type="text" id="username"/><div id="nameError"></div></td>
+            <td><input align="center" type="text" id="username"/>
+                <div id="nameError"></div>
+            </td>
         </tr>
         <tr>
             <td align="right">Password:</td>
             <td><input align="center" type="password" id="password"/></td>
         </tr>
         <!--<tr>-->
-            <!--<td align="right">Sex:</td>-->
-            <!--<td><input name="gender" type="radio"/>Male</td>-->
+        <!--<td align="right">Sex:</td>-->
+        <!--<td><input name="gender" type="radio"/>Male</td>-->
         <!--</tr>-->
         <!--<tr>-->
-            <!--<td/>-->
-            <!--<td><input name="gender" type="radio"/>Female</td>-->
+        <!--<td/>-->
+        <!--<td><input name="gender" type="radio"/>Female</td>-->
         <!--</tr>-->
         <!--<tr>-->
-            <!--<td align="right">City:</td>-->
-            <!--<td><input type="text" id="city"></td>-->
+        <!--<td align="right">City:</td>-->
+        <!--<td><input type="text" id="city"></td>-->
         <!--</tr>-->
         <tr>
             <td align="right" colspan="2">
