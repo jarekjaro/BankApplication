@@ -9,7 +9,6 @@
     <script type="text/javascript">
         function validateForm() {
             var name = $('#username').val();
-            alert(name);
             if (name.length < 2) {
                 $("#nameError").html("please, provide your name");
                 return false;
@@ -62,7 +61,7 @@
         <!--</tr>-->
         <tr>
             <td align="right" colspan="2">
-                <input type="submit" onclick="return validateForm()" align="center"></td>
+                <input type="submit" onclick="return validateForm()"></td>
         </tr>
     </table>
 </form>
