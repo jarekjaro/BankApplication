@@ -7,10 +7,38 @@
         <servlet-name>WelcomeServlet</servlet-name>
         <servlet-class>com.luxoft.bankapp.servlets.WelcomeServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.luxoft.bankapp.servlets.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SessionAmountServlet</servlet-name>
+        <servlet-class>com.luxoft.bankapp.servlets.SessionAmountServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SessionAmountServlet</servlet-name>
+        <url-pattern>/sessions</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WelcomeServlet</servlet-name>
         <url-pattern>/welcome</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>CheckLoggedFilter</filter-name>
+        <filter-class>com.luxoft.bankapp.servlets.CheckLoggedFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CheckLoggedFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>com.luxoft.bankapp.servlets.SessionListener</listener-class>
+        <!--<description>Counts the number of sessions</description>-->
+    </listener>
     <welcome-file-list>
         <welcome-file>welcome</welcome-file>
     </welcome-file-list>

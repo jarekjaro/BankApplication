@@ -15,7 +15,6 @@
         <h2.version>1.4.190</h2.version>
         <maven.compiler.plugin.version>3.5</maven.compiler.plugin.version>
     </properties>
-
     <build>
         <plugins>
             <plugin>
@@ -26,6 +25,16 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat6-maven-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
             </plugin>
         </plugins>
     </build>
