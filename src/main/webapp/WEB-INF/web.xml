@@ -16,6 +16,13 @@
         <servlet-name>SessionAmountServlet</servlet-name>
         <servlet-class>com.luxoft.bankapp.servlets.SessionAmountServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>BalanceServlet</servlet-name>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BalanceServlet</servlet-name>
+        <url-pattern>/balance</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>SessionAmountServlet</servlet-name>
         <url-pattern>/sessions</url-pattern>
