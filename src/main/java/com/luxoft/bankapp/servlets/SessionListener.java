@@ -5,11 +5,13 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 public class SessionListener implements HttpSessionListener {
+    static Integer clientsConnected = new Integer(0);
+
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         final ServletContext context = httpSessionEvent.getSession().getServletContext();
         synchronized (SessionListener.class) {
-            Integer clientsConnected = (Integer) context.getAttribute("clientsConnected");
+            clientsConnected = (Integer) context.getAttribute("clientsConnected");
             if (clientsConnected == null) {
                 clientsConnected = 1;
             } else {
@@ -23,7 +25,7 @@ public class SessionListener implements HttpSessionListener {
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         final ServletContext context = httpSessionEvent.getSession().getServletContext();
         synchronized (SessionListener.class) {
-            Integer clientsConnected = (Integer) context.getAttribute("clientsConnected");
+            clientsConnected = (Integer) context.getAttribute("clientsConnected");
             if (clientsConnected == null) {
                 clientsConnected = 0;
             } else {

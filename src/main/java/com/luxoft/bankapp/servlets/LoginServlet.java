@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class LoginServlet extends HttpServlet{
+public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = -4989841998376730182L;
     private static Logger logger = Logger.getLogger(LoginServlet.class.getCanonicalName());
 
