@@ -18,7 +18,24 @@
     </servlet>
     <servlet>
         <servlet-name>BalanceServlet</servlet-name>
+        <servlet-class>com.luxoft.bankapp.servlets.BalanceServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>com.luxoft.bankapp.servlets.LogoutServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>WithdrawServlet</servlet-name>
+        <servlet-class>com.luxoft.bankapp.servlets.WithdrawServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WithdrawServlet</servlet-name>
+        <url-pattern>/withdraw</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>BalanceServlet</servlet-name>
         <url-pattern>/balance</url-pattern>

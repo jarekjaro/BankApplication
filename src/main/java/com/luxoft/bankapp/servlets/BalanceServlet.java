@@ -29,15 +29,16 @@ public class BalanceServlet extends HttpServlet {
         try {
             bank = bankDAO.getBankByName("Deutche");
             ArrayList<Client> clientsFromDB = (ArrayList<Client>) clientDAO.getAllClients(bank);
-            HashSet<Account> accountHashSet = new HashSet<>();
-            for (int i = 0; i < clientsFromDB.size(); i++) {
-                List accountsList = accountDAO.getClientAccounts(i);
-                accountsList.forEach(account -> accountHashSet.add((Account) account));
-            }
+            clientsFromDB.forEach(bank::addClientToMap);
+            ArrayList<Account> accountArrayList;
+            Client currentClient = clientDAO.findClientByName(bank, clientName);
+            accountArrayList = (ArrayList<Account>) accountDAO.getClientAccounts(currentClient.getId());
+            Account currentAccount = accountArrayList.get(0);
+            req.getSession().setAttribute("balance", currentAccount.getBalance());
+            resp.sendRedirect("balance.jsp");
         } catch (DAOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override

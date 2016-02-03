@@ -47,23 +47,21 @@
             <td align="right">Password:</td>
             <td><input align="left" type="password" id="password" name="password"/></td>
         </tr>
-        <!--<tr>-->
-        <!--<td align="right">Sex:</td>-->
-        <!--<td><input name="gender" type="radio"/>Male</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td/>-->
-        <!--<td><input name="gender" type="radio"/>Female</td>-->
-        <!--</tr>-->
-        <!--<tr>-->
-        <!--<td align="right">City:</td>-->
-        <!--<td><input type="text" id="city"></td>-->
-        <!--</tr>-->
         <tr>
             <td align="right" colspan="2">
                 <input type="submit" onclick="return validateForm();"></td>
         </tr>
     </table>
 </form>
+
+<h4>Clients:</h4>
+    <ol>
+        <li>Zuzanna</li>
+        <li>Zenon</li>
+        <li>Helga</li>
+        <li>Zbigniew</li>
+        <li>Quentin</li>
+        <li>Wacław</li>
+    </ol>
 </body>
 </html>

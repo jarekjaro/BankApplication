@@ -36,17 +36,17 @@
 </head>
 <body bgcolor="#EFECCA">
 <h1 align="center">Withdraw</h1>
-<form id="withdrawForm" method="POST" target="_self">
+<form id="withdrawForm" method="POST" target="_self" action="/withdraw">
     <table id="menu" align="center">
         <tr>
             <td>Withdraw amount:</td>
-            <td><input type="text" id="amount"/>
+            <td><input type="text" id="amount" name="amount"/>
                 <div id="amountError"></div>
             </td>
         </tr>
         <tr>
             <td></td>
-            <td align="right"><input type="submit" onclick="return validateAmount()">
+            <td align="right"><input type="submit" onclick="return validateAmount();">
             </td>
         </tr>
     </table>

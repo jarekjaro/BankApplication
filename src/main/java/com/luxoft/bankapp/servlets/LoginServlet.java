@@ -21,6 +21,6 @@ public class LoginServlet extends HttpServlet {
         }
         request.getSession().setAttribute("clientName", clientName);
         logger.info("Client " + clientName + " logged into ATM");
-        response.sendRedirect("/menu.html");
+        response.sendRedirect("/menu.jsp");
     }
 }

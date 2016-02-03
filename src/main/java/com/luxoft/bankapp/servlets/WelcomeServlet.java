@@ -13,6 +13,6 @@ public class WelcomeServlet extends HttpServlet {
         response.setContentType("text/html");
         ServletOutputStream servletOutputStream = response.getOutputStream();
         servletOutputStream.println("Hello! I'm ATM <br>");
-        servletOutputStream.println("<a href='/login.html'>Login</a>");
+        servletOutputStream.println("<a href='/login.jsp'>Login</a>");
     }
 }

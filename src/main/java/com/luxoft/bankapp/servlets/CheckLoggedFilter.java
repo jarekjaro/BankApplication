@@ -24,7 +24,7 @@ public class CheckLoggedFilter implements Filter {
         if (path.startsWith("/login") || path.equals("/welcome") || path.equals("/") || clientName != null) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            response.sendRedirect("/login.html");
+            response.sendRedirect("/login.jsp");
         }
     }
 

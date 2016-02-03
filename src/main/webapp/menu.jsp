@@ -13,24 +13,28 @@
             cursor: hand;
         }
 
+        h5 {
+            color: #046380;
+        }
+
         tr {
             color: #046380;
         }
     </style>
 </head>
 <body bgcolor="#EFECCA">
+<h5 align="center"><%=session.getAttribute("clientName")%>
+</h5>
 <table id="menu" align="center">
     <tr>
-        <td><a href="/withdraw.html">Withdraw</a></td>
-        <td><a href="/deposit.html">Deposit</a></td>
+        <td><a href="/balance">Balance</a></td>
+        <td><a href="/withdraw.jsp">Withdraw</a></td>
     </tr>
     <tr>
-        <td><a href="/balance.html">Get balance</a></td>
-        <td><a href="/logout.html">Exit</a></td>
+        <%--<td><a href="/deposit.jsp">Deposit</a></td>--%>
+        <td><a href="/sessions.jsp">Sessions</a></td>
+        <td><a href="/logout">Exit</a></td>
     </tr>
 </table>
-<p align="center">
-<form id="authorizationForm" method="get" action="/sessions" target="_self">No. of Sessions<input type="submit"></form>
-</p>
 </body>
 </html>

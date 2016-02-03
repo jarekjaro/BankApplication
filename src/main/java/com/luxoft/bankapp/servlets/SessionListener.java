@@ -7,6 +7,10 @@ import javax.servlet.http.HttpSessionListener;
 public class SessionListener implements HttpSessionListener {
     static Integer clientsConnected = new Integer(0);
 
+    public static Integer getClientsConnected() {
+        return clientsConnected;
+    }
+
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         final ServletContext context = httpSessionEvent.getSession().getServletContext();

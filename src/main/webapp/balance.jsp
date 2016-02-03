@@ -6,6 +6,7 @@
         Sorry...JavaScript is needed to go ahead.
     </noscript>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <title>Balance</title>
     <style>
         h1 {
             color: #046380;
@@ -26,12 +27,13 @@
             color: #046380;
         }
     </style>
-    <title>Sessions</title>
+    <title>Balance</title>
 </head>
 <body bgcolor="#EFECCA">
-<h1 align="center">Sessions</h1>
+<h1 align="center">Balance</h1>
 <br>
-<h2 align="center">Number of sessions is:</h2>
+<h2 align="center">Balance is: <%=session.getAttribute("balance")%>
+</h2>
 
 </body>
 </html>
