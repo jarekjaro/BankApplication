@@ -27,7 +27,6 @@
             color: #046380;
         }
     </style>
-    <title>Balance</title>
 </head>
 <body bgcolor="#EFECCA">
 <h1 align="center">Balance</h1>

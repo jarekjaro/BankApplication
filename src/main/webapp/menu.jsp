@@ -33,6 +33,9 @@
     <tr>
         <%--<td><a href="/deposit.jsp">Deposit</a></td>--%>
         <td><a href="/sessions.jsp">Sessions</a></td>
+        <td><a href="findclients.jsp">Find Clients</a></td>
+    </tr>
+    <tr>
         <td><a href="/logout">Exit</a></td>
     </tr>
 </table>

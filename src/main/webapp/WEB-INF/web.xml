@@ -28,6 +28,14 @@
         <servlet-name>WithdrawServlet</servlet-name>
         <servlet-class>com.luxoft.bankapp.servlets.WithdrawServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FindClientsServlet</servlet-name>
+        <servlet-class>com.luxoft.bankapp.servlets.FindClientsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>FindClientsServlet</servlet-name>
+        <url-pattern>/findclients</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>WithdrawServlet</servlet-name>
         <url-pattern>/withdraw</url-pattern>
